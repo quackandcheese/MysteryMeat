@@ -77,6 +77,10 @@ namespace KitchenMysteryMeat.Customs.Dishes
 
         // IsAvailableAsLobbyOption - When TRUE this Dish will appear in the lobby.
         public override bool IsAvailableAsLobbyOption => true;
+        public override HashSet<Item> BlockProviders => new()
+        {
+            (Item)GDOUtils.GetExistingGDO(ItemReferences.BurgerPattyRaw)
+        };
 
         // Recipe - This is the recipe displayed when unlocking this Dish.
         public override Dictionary<Locale, string> Recipe => new Dictionary<Locale, string>
