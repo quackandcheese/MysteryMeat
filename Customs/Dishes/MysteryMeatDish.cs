@@ -3,6 +3,8 @@ using KitchenData;
 using KitchenLib.Customs;
 using KitchenLib.References;
 using KitchenLib.Utils;
+using KitchenMysteryMeat.Customs.Items;
+
 //using KitchenMysteryMeat.Customs.ItemGroups;
 //using KitchenMysteryMeat.Customs.Items;
 using UnityEngine;
@@ -44,11 +46,11 @@ namespace KitchenMysteryMeat.Customs.Dishes
         // MinimumIngredients - The ingredients required to make this Dish.
         public override HashSet<Item> MinimumIngredients => new HashSet<Item>()
         {
+            (Item)GDOUtils.GetCustomGameDataObject<MeatCleaver>().GameDataObject,
             (Item)GDOUtils.GetExistingGDO(ItemReferences.Egg),
             (Item)GDOUtils.GetExistingGDO(ItemReferences.BurgerBun),
             (Item)GDOUtils.GetExistingGDO(ItemReferences.Water),
             (Item)GDOUtils.GetExistingGDO(ItemReferences.Plate),
-            (Item)GDOUtils.GetExistingGDO(ItemReferences.SharpKnife)
         };
 
         // RequiredProcesses - The processes required to make this Dish.

@@ -44,7 +44,7 @@ namespace KitchenMysteryMeat
 
             Events.BuildGameDataEvent += delegate (object s, BuildGameDataEventArgs args)
             {
-                ((Item)GDOUtils.GetExistingGDO(ItemReferences.SharpKnife)).Properties.Add(new CKillsCustomer());
+                //((Item)GDOUtils.GetExistingGDO(ItemReferences.SharpKnife)).Properties.Add(new CKillsCustomer());
             };
         }
     }
