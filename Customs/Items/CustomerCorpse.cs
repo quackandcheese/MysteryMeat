@@ -2,7 +2,10 @@ using Kitchen;
 using KitchenAmericanBreakfast.Sides;
 using KitchenData;
 using KitchenLib.Customs;
+using KitchenLib.References;
 using KitchenLib.Utils;
+using KitchenMysteryMeat.Components;
+using KitchenMysteryMeat.Customs.Appliances;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -35,6 +38,13 @@ namespace KitchenMysteryMeat.Customs.Items
         public override List<Item> SplitDepletedItems => new() { (Item)GDOUtils.GetCustomGameDataObject<MysteryMeat>().GameDataObject };
         public override List<IItemProperty> Properties => new()
         {
+            new CProcessCausesSpill()
+            {
+                Process = -1,
+                ID = GDOUtils.GetCustomGameDataObject<BloodSpill1>().ID,
+                Rate = 1.0f,
+                OverwriteOtherMesses = false
+            }
         };
 
         /*public override void OnRegister(Item gameDataObject)

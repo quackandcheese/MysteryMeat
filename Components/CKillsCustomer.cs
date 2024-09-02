@@ -9,7 +9,7 @@ using Unity.Entities;
 
 namespace KitchenMysteryMeat.Components
 {
-    public struct CKillsCustomer : IModComponent, IItemProperty
+    public struct CKillsCustomer : IModComponent, IItemProperty, IAttachableProperty
     {
     }
 }
