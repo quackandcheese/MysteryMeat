@@ -1,6 +1,9 @@
-﻿using Kitchen;
+﻿using ExitGames.Client.Photon.StructWrapping;
+using Kitchen;
+using KitchenLib.Utils;
 using KitchenMods;
 using KitchenMysteryMeat.Components;
+using KitchenMysteryMeat.Customs.Appliances;
 using Steamworks.Ugc;
 using System;
 using System.Collections.Generic;
@@ -10,6 +13,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Unity.Collections;
 using Unity.Entities;
+using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace KitchenMysteryMeat.Systems
 {
@@ -27,6 +32,7 @@ namespace KitchenMysteryMeat.Systems
         protected override void OnUpdate()
         {
             NativeArray<Entity> customers = CustomersToKill.ToEntityArray(Allocator.Temp);
+            EntityContext ctx = new EntityContext(EntityManager);
 
             for (int i = 0; i < customers.Length; i++)
             {
@@ -35,11 +41,15 @@ namespace KitchenMysteryMeat.Systems
                     !RequireBuffer(belongsToGroup.Group, out DynamicBuffer<CGroupMember> groupMembers))
 
                     continue;
+
+                CPosition customerPosition = EntityManager.GetComponentData<CPosition>(customer);
+
                 for (int j = groupMembers.Length - 1; j > -1; j--)
                 {
                     if (groupMembers[j].Customer != customer)
                         continue;
                     groupMembers.RemoveAt(j);
+                    CreateCorpse(ctx, customerPosition.Position);
                     break;
                 }
 
@@ -48,9 +58,36 @@ namespace KitchenMysteryMeat.Systems
                     EntityManager.DestroyEntity(belongsToGroup.Group);
                 }
             }
+
             EntityManager.DestroyEntity(CustomersToKill);
 
             customers.Dispose();
+        }
+
+        private void CreateCorpse(EntityContext ctx, Vector3 position)
+        {
+            // Creating corpse
+            Entity entity = ctx.CreateEntity();
+            int corpseID = GDOUtils.GetCustomGameDataObject<CustomerFloorCorpse>().ID;
+            ctx.Set<CCreateAppliance>(entity, new CCreateAppliance
+            {
+                ID = corpseID
+            });
+            ctx.Set<CPosition>(entity, new CPosition(position));
+
+            // Creating blood spills
+            int minbloodSpills = 2;
+            int maxbloodSpills = 6;
+            for (int i = 0; i < UnityEngine.Random.Range(minbloodSpills, maxbloodSpills + 1); i++)
+            {
+                Entity bloodSpill = ctx.CreateEntity();
+                ctx.Set<CMessRequest>(bloodSpill, new CMessRequest
+                {
+                    ID = GDOUtils.GetCustomGameDataObject<BloodSpill1>().ID,
+                    OverwriteOtherMesses = false
+                });
+                ctx.Set<CPosition>(bloodSpill, new CPosition(position));
+            }
         }
     }
 }
