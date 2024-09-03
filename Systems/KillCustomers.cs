@@ -19,7 +19,7 @@ using UnityEngine.UIElements;
 
 namespace KitchenMysteryMeat.Systems
 {
-    [UpdateInGroup(typeof(DestructionGroup))]
+    [UpdateInGroup(typeof(DestructionGroup), OrderFirst = true)]
     public class KillCustomers : DaySystem, IModSystem
     {
         EntityQuery CustomersToKill;
@@ -42,10 +42,13 @@ namespace KitchenMysteryMeat.Systems
                 CPosition customerPosition = EntityManager.GetComponentData<CPosition>(customer);
                 CreateCorpse(ctx, customerPosition);
 
+                // Destroy order indicator
+
                 if (!Require(customer, out CBelongsToGroup belongsToGroup) ||
                     !RequireBuffer(belongsToGroup.Group, out DynamicBuffer<CGroupMember> groupMembers))
 
                     continue;
+
 
                 for (int j = groupMembers.Length - 1; j > -1; j--)
                 {
@@ -54,7 +57,6 @@ namespace KitchenMysteryMeat.Systems
                     groupMembers.RemoveAt(j);
                     break;
                 }
-
                 /*if (groupMembers.Length == 0)
                 {
                     EntityManager.DestroyEntity(belongsToGroup.Group);

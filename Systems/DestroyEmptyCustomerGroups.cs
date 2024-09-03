@@ -11,7 +11,7 @@ using Unity.Entities;
 
 namespace KitchenMysteryMeat.Systems
 {
-    [UpdateInGroup(typeof(DestructionGroup), OrderFirst = true)]
+    [UpdateInGroup(typeof(DestructionGroup)), UpdateAfter(typeof(KillCustomers))]
     public class DestroyEmptyCustomerGroups : DaySystem, IModSystem
     {
         EntityQuery CustomerGroups;
@@ -34,7 +34,14 @@ namespace KitchenMysteryMeat.Systems
                 if (RequireBuffer<CGroupMember>(customerGroup, out DynamicBuffer<CGroupMember> groupMembers))
                 {
                     if (groupMembers.Length <= 0)
+                    {
+                        if (Require<CHasIndicator>(customerGroup, out CHasIndicator cHasIndicator))
+                        {
+                            EntityManager.DestroyEntity(cHasIndicator.Indicator);
+                        }
+
                         EntityManager.DestroyEntity(customerGroup);
+                    }
                 }
             }
         }
