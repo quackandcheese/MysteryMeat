@@ -73,10 +73,10 @@ namespace KitchenMysteryMeat.Systems
 
                         // Checking if illegal entity is in customer's view
                         Vector3 vector = illegalEntityPos.Position - memberPosition.Position;
-                        if (vector.sqrMagnitude < 25f)
+                        if (vector.sqrMagnitude < 4f)
                         {
                             Vector3 rhs = memberPosition.Forward(1f);
-                            if (Vector3.Dot(vector.normalized, rhs) > 1f - Mathf.Cos((float)Math.PI / 4f))
+                            if (Vector3.Dot(vector.normalized, rhs) > 1f - Mathf.Cos((float)Math.PI / 5f))
                             {
                                 // Run away!
                                 groupMembers.RemoveAt(j);

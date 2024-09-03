@@ -1,5 +1,6 @@
 ﻿using ExitGames.Client.Photon.StructWrapping;
 using Kitchen;
+using KitchenData;
 using KitchenLib.Utils;
 using KitchenMods;
 using KitchenMysteryMeat.Components;
@@ -39,7 +40,7 @@ namespace KitchenMysteryMeat.Systems
                 Entity customer = customers[i];
 
                 CPosition customerPosition = EntityManager.GetComponentData<CPosition>(customer);
-                CreateCorpse(ctx, customerPosition.Position);
+                CreateCorpse(ctx, customerPosition);
 
                 if (!Require(customer, out CBelongsToGroup belongsToGroup) ||
                     !RequireBuffer(belongsToGroup.Group, out DynamicBuffer<CGroupMember> groupMembers))
@@ -63,16 +64,16 @@ namespace KitchenMysteryMeat.Systems
             EntityManager.DestroyEntity(CustomersToKill);
         }
 
-        private void CreateCorpse(EntityContext ctx, Vector3 position)
+        private void CreateCorpse(EntityContext ctx, CPosition cPosition)
         {
             // Creating corpse
-            Entity entity = ctx.CreateEntity();
+            Entity corpse = ctx.CreateEntity();
             int corpseID = GDOUtils.GetCustomGameDataObject<CustomerFloorCorpse>().ID;
-            ctx.Set<CCreateAppliance>(entity, new CCreateAppliance
+            ctx.Set<CCreateAppliance>(corpse, new CCreateAppliance
             {
                 ID = corpseID
             });
-            ctx.Set<CPosition>(entity, new CPosition(position));
+            ctx.Set<CPosition>(corpse, new CPosition(cPosition.Position, cPosition.Rotation));
 
             // Creating blood spills
             int minbloodSpills = 2;
@@ -85,7 +86,13 @@ namespace KitchenMysteryMeat.Systems
                     ID = GDOUtils.GetCustomGameDataObject<BloodSpill1>().ID,
                     OverwriteOtherMesses = false
                 });
-                ctx.Set<CPosition>(bloodSpill, new CPosition(position));
+
+                // This is so spills don't spawn out of bounds, becoming an uncleanable illegal sight
+                // Doesn't work though since mess request creates the mess appliances
+                if (!TileManager.IsSuitableEmptyTile(cPosition, allow_oob: false, allow_outside: true))
+                    continue;
+
+                ctx.Set<CPosition>(bloodSpill, new CPosition(cPosition.Position));
             }
         }
     }

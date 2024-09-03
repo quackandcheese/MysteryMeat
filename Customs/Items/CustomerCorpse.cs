@@ -47,7 +47,7 @@ namespace KitchenMysteryMeat.Customs.Items
                 Rate = 1.0f,
                 OverwriteOtherMesses = false
             },
-            new CIllegalSight()
+            new CIllegalSight(),
         };
 
         public override void OnRegister(Item item)
