@@ -32,12 +32,12 @@ namespace KitchenMysteryMeat.Systems
 
         protected override void OnUpdate()
         {
-            using NativeArray<Entity> customers = CustomersToKill.ToEntityArray(Allocator.Temp);
+            using NativeArray<Entity> _customers = CustomersToKill.ToEntityArray(Allocator.Temp);
             EntityContext ctx = new EntityContext(EntityManager);
 
-            for (int i = 0; i < customers.Length; i++)
+            for (int i = 0; i < _customers.Length; i++)
             {
-                Entity customer = customers[i];
+                Entity customer = _customers[i];
 
                 CPosition customerPosition = EntityManager.GetComponentData<CPosition>(customer);
                 CreateCorpse(ctx, customerPosition);
@@ -71,7 +71,8 @@ namespace KitchenMysteryMeat.Systems
             int corpseID = GDOUtils.GetCustomGameDataObject<CustomerFloorCorpse>().ID;
             ctx.Set<CCreateAppliance>(corpse, new CCreateAppliance
             {
-                ID = corpseID
+                ID = corpseID,
+                ForceLayer = OccupancyLayer.Ceiling
             });
             ctx.Set<CPosition>(corpse, new CPosition(cPosition.Position, cPosition.Rotation));
 
