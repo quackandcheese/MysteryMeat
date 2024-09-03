@@ -3,6 +3,7 @@ using KitchenData;
 using KitchenLib.Customs;
 using KitchenLib.References;
 using KitchenLib.Utils;
+using KitchenMysteryMeat.Components;
 using KitchenMysteryMeat.Customs.Items;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,6 +20,7 @@ namespace KitchenMysteryMeat.Customs.Appliances
         {
             new CDestroyApplianceAtNight(),
             KitchenPropertiesUtils.GetCItemProvider(GDOUtils.GetCustomGameDataObject<CustomerCorpse>().ID, 1, 1, false, false, false, true, false, false, false),
+            new CIllegalSight(),
 /*
             new CTakesDuration()
             {

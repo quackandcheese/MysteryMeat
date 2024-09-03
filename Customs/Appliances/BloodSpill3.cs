@@ -3,6 +3,7 @@ using KitchenData;
 using KitchenLib.Customs;
 using KitchenLib.References;
 using KitchenLib.Utils;
+using KitchenMysteryMeat.Components;
 using KitchenMysteryMeat.Customs.Items;
 using System;
 using System.Collections.Generic;
@@ -43,7 +44,8 @@ namespace KitchenMysteryMeat.Customs.Appliances
                 IsBad = false,
                 Process = ProcessReferences.Clean,
                 ShowWhenEmpty = false
-            }
+            },
+            new CIllegalSight(),
         };
     }
 }

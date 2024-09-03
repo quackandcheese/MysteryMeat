@@ -11,19 +11,21 @@ using UnityEngine;
 
 namespace KitchenMysteryMeat.Customs.Items
 {
-/*    public class CustomerCorpseItemView : ObjectsSplittableView
+    public class CustomerCorpseItemView : ObjectsSplittableView
     {
         internal void Setup(GameObject prefab)
         {
             var fObjects = ReflectionUtils.GetField<ObjectsSplittableView>("Objects");
             fObjects.SetValue(this, new List<GameObject>()
             {
-                prefab.GetChild("Slice1"),
-                prefab.GetChild("Slice2"),
-                prefab.GetChild("Slice3")
+                prefab.GetChild("CorpseStage5"),
+                prefab.GetChild("CorpseStage4"),
+                prefab.GetChild("CorpseStage3"),
+                prefab.GetChild("CorpseStage2"),
+                prefab.GetChild("Corpse"),
             });
         }
-    }*/
+    }
 
     public class CustomerCorpse : CustomItem
     {
@@ -44,16 +46,17 @@ namespace KitchenMysteryMeat.Customs.Items
                 ID = GDOUtils.GetCustomGameDataObject<BloodSpill1>().ID,
                 Rate = 1.0f,
                 OverwriteOtherMesses = false
-            }
+            },
+            new CIllegalSight()
         };
 
-        /*public override void OnRegister(Item gameDataObject)
+        public override void OnRegister(Item item)
         {
             if (!Prefab.HasComponent<CustomerCorpseItemView>())
             {
                 var view = Prefab.AddComponent<CustomerCorpseItemView>();
                 view.Setup(Prefab);
             }
-        }*/
+        }
     }
 }

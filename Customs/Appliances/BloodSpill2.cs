@@ -3,6 +3,7 @@ using KitchenData;
 using KitchenLib.Customs;
 using KitchenLib.References;
 using KitchenLib.Utils;
+using KitchenMysteryMeat.Components;
 using KitchenMysteryMeat.Customs.Items;
 using System;
 using System.Collections.Generic;
@@ -48,7 +49,8 @@ namespace KitchenMysteryMeat.Customs.Appliances
             {
                 BaseMess = GDOUtils.GetCustomGameDataObject<BloodSpill1>().ID,
                 NextMess = GDOUtils.GetCustomGameDataObject<BloodSpill3>().ID
-            }
+            },
+            new CIllegalSight(),
         };
     }
 }
