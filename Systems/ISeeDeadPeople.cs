@@ -87,13 +87,6 @@ namespace KitchenMysteryMeat.Systems
                         }
                     }
                 }
-
-
-                /*if (groupMembers.Length == 0)
-                {
-                    _customerGroups.ToList().Remove(customerGroup);
-                    EntityManager.DestroyEntity(customerGroup);
-                }*/
             }
         }
     }

@@ -31,37 +31,36 @@ namespace KitchenMysteryMeat.Systems
 
         protected override void OnUpdate()
         {
-            NativeArray<Entity> customers = CustomersToKill.ToEntityArray(Allocator.Temp);
+            using NativeArray<Entity> customers = CustomersToKill.ToEntityArray(Allocator.Temp);
             EntityContext ctx = new EntityContext(EntityManager);
 
             for (int i = 0; i < customers.Length; i++)
             {
                 Entity customer = customers[i];
+
+                CPosition customerPosition = EntityManager.GetComponentData<CPosition>(customer);
+                CreateCorpse(ctx, customerPosition.Position);
+
                 if (!Require(customer, out CBelongsToGroup belongsToGroup) ||
                     !RequireBuffer(belongsToGroup.Group, out DynamicBuffer<CGroupMember> groupMembers))
 
                     continue;
-
-                CPosition customerPosition = EntityManager.GetComponentData<CPosition>(customer);
 
                 for (int j = groupMembers.Length - 1; j > -1; j--)
                 {
                     if (groupMembers[j].Customer != customer)
                         continue;
                     groupMembers.RemoveAt(j);
-                    CreateCorpse(ctx, customerPosition.Position);
                     break;
                 }
 
-                if (groupMembers.Length == 0)
+                /*if (groupMembers.Length == 0)
                 {
                     EntityManager.DestroyEntity(belongsToGroup.Group);
-                }
+                }*/
             }
 
             EntityManager.DestroyEntity(CustomersToKill);
-
-            customers.Dispose();
         }
 
         private void CreateCorpse(EntityContext ctx, Vector3 position)
