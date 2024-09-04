@@ -31,16 +31,18 @@ namespace KitchenMysteryMeat.Systems
             {
                 CSuspicionIndicator susIndicator = EntityManager.GetComponentData<CSuspicionIndicator>(customer);
 
-                if (susIndicator.TotalTime <= 0.0f)
+                if (susIndicator.TotalTime <= 0.0f || susIndicator.IndicatorType == SuspicionIndicatorType.Alert;)
                     continue;
 
-                if (!susIndicator.Active)
+                if (susIndicator.SeenIllegalThing) 
                 {
-                    susIndicator.RemainingTime = susIndicator.TotalTime;
-                    continue;
+                    susIndicator.RemainingTime = Mathf.Clamp(susIndicator.RemainingTime - Time.DeltaTime, 0.0f, susIndicator.TotalTime);
                 }
-
-                susIndicator.RemainingTime = Mathf.Clamp(susIndicator.RemainingTime - Time.DeltaTime, 0.0f, susIndicator.TotalTime);
+                else 
+                {
+                    // Divide delta time by 2 to make suspicion go down slower
+                    susIndicator.RemainingTime = Mathf.Clamp(susIndicator.RemainingTime + (Time.DeltaTime / 2.0f), 0.0f, susIndicator.TotalTime);
+                }
 
                 EntityManager.SetComponentData(customer, susIndicator);
 
@@ -61,10 +63,9 @@ namespace KitchenMysteryMeat.Systems
                     }
 
                     // Make leave
+                    susIndicator.IndicatorType = SuspicionIndicatorType.Alert;
                     EntityManager.AddComponent<CCustomerLeaving>(customer);
                     EntityManager.AddComponent<CRunningAway>(customer);
-
-                    susIndicator.Active = false;
                     EntityManager.SetComponentData(customer, susIndicator);
                 }
             }

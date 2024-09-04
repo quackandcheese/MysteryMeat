@@ -54,9 +54,12 @@ namespace KitchenMysteryMeat.Systems
                     }
 
                     if (!Require<CPosition>(member, out CPosition memberPosition))
-						{
+                    {
                         continue;
                     }
+
+                    if (!Require<CSuspicionIndicator>(member, out CSuspicionIndicator cSuspicionIndicator))
+                        continue;
 
                     foreach (Entity illegalEntity in _illegalEntities)
                     {
@@ -72,6 +75,8 @@ namespace KitchenMysteryMeat.Systems
                             continue;
 
                         // Checking if illegal entity is in customer's view
+                        cSuspicionIndicator.SeenIllegalThing = false;
+
                         Vector3 vector = illegalEntityPos.Position - memberPosition.Position;
                         if (vector.sqrMagnitude < 4f)
                         {
@@ -79,17 +84,11 @@ namespace KitchenMysteryMeat.Systems
                             if (Vector3.Dot(vector.normalized, rhs) > 1f - Mathf.Cos((float)Math.PI / 5f))
                             {
                                 // Run away!
-                                if (Require<CSuspicionIndicator>(member, out CSuspicionIndicator cSuspicionIndicator) && !Has<CRunningAway>(member))
-                                {
-                                    if (cSuspicionIndicator.Active)
-                                        return;
-
-                                    cSuspicionIndicator.Active = true;
-                                    EntityManager.SetComponentData<CSuspicionIndicator>(member, cSuspicionIndicator);
-                                    return;
-                                }
+                                cSuspicionIndicator.SeenIllegalThing = true;
                             }
                         }
+
+                        EntityManager.SetComponentData<CSuspicionIndicator>(member, cSuspicionIndicator);
                     }
                 }
             }

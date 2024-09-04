@@ -29,13 +29,24 @@ namespace KitchenMysteryMeat.Views
         {
             if (Canvas == null || FillImage == null)
                 return;
-            Canvas.SetActive(data.Active);
+            
+            bool shouldShowIndicator = data.RemainingTime < TotalTime || data.IndicatorType == SuspicionIndicatorType.Alert;
+            Canvas.SetActive(shouldShowIndicator);
 
-            if (data.RemainingTime > 0.0f)
+            if (data.IndicatorType == SuspicionIndicatorType.Alert) 
             {
-                // Fill amount starts from 0, then goes up
-                FillImage.fillAmount = 1 - (data.RemainingTime / data.TotalTime);
+                // Show Alert Indicator
             }
+            else if (data.IndicatorType == SuspicionIndicatorType.Suspicious) 
+            {
+                // Show Sus Indicator
+
+                if (data.RemainingTime > 0.0f)
+                {
+                    // Fill amount starts from 0, then goes up
+                    FillImage.fillAmount = 1 - (data.RemainingTime / data.TotalTime);
+                }
+            }            
         }
 
         private void Update()
@@ -64,7 +75,7 @@ namespace KitchenMysteryMeat.Views
 
                     SendUpdate(view, new ViewData
                     {
-                        Active = suspicionIndicator.Active,
+                        IndicatorType = suspicionIndicator.IndicatorType,
                         TotalTime = suspicionIndicator.TotalTime,
                         RemainingTime = suspicionIndicator.RemainingTime,
                     }, MessageType.SpecificViewUpdate);
@@ -75,13 +86,13 @@ namespace KitchenMysteryMeat.Views
         [MessagePackObject(false)]
         public struct ViewData : ISpecificViewData, IViewData, IViewResponseData, IViewData.ICheckForChanges<ViewData>
         {
-            [Key(0)] public bool Active;
+            [Key(0)] public SuspicionIndicatorType IndicatorType;
             [Key(1)] public float TotalTime;
             [Key(2)] public float RemainingTime;
 
             public IUpdatableObject GetRelevantSubview(IObjectView view) => view.GetSubView<SuspicionIndicatorView>();
 
-            public bool IsChangedFrom(ViewData check) => check.Active != Active || check.RemainingTime != RemainingTime || check.TotalTime != TotalTime;
+            public bool IsChangedFrom(ViewData check) => check.IndicatorType != IndicatorType || check.RemainingTime != RemainingTime || check.TotalTime != TotalTime;
         }
     }
 }

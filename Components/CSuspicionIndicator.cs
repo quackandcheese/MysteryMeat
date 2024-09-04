@@ -8,9 +8,16 @@ using Unity.Entities;
 
 namespace KitchenMysteryMeat.Components
 {
+    public enum SuspicionIndicatorType 
+    {
+        Suspicious,
+        Alert
+    }
+
     public struct CSuspicionIndicator: IModComponent
     {
-        public bool Active;
+        public SuspicionIndicatorType IndicatorType;
+        public bool SeenIllegalThing;
         public float TotalTime;
         public float RemainingTime;
     }
