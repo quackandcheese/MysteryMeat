@@ -16,17 +16,17 @@ namespace KitchenMysteryMeat.Systems
 {
     public class ISeeDeadPeople : GenericSystemBase, IModSystem
     {
-        EntityQuery CustomerGroups;
+        EntityQuery Customers;
         EntityQuery IllegalEntities;
 
         protected override void Initialise()
         {
             base.Initialise();
 
-            CustomerGroups = GetEntityQuery(new QueryHelper()
-                            .All(typeof(CCustomerGroup))
+            Customers = GetEntityQuery(new QueryHelper()
+                            .All(typeof(CCustomer), typeof(CPosition), typeof(CSuspicionIndicator), typeof(CBelongsToGroup))
                             .None(
-                                typeof(CGroupLeaving)
+                                typeof(CRunningAway)
                             ));
             IllegalEntities = GetEntityQuery(new QueryHelper()
                             .All(typeof(CIllegalSight)));
@@ -34,63 +34,42 @@ namespace KitchenMysteryMeat.Systems
 
         protected override void OnUpdate()
         {
-            using NativeArray<Entity> _customerGroups = CustomerGroups.ToEntityArray(Allocator.Temp);
+            using NativeArray<Entity> _customers = Customers.ToEntityArray(Allocator.Temp);
             using NativeArray<Entity> _illegalEntities = IllegalEntities.ToEntityArray(Allocator.Temp);
 
-            for (int i = _customerGroups.Length - 1; i > -1; i--)
+            for (int i = _customers.Length - 1; i > -1; i--)
             {
-                Entity customerGroup = _customerGroups[i];
+                Entity customer = _customers[i];
+                CPosition customerPosition = GetComponent<CPosition>(customer);
+                CSuspicionIndicator cSuspicionIndicator = GetComponent<CSuspicionIndicator>(customer);
 
-                DynamicBuffer<CGroupMember> groupMembers = EntityManager.GetBuffer<CGroupMember>(customerGroup);
 
-                for (int j = groupMembers.Length - 1; j > -1; j--)
+                foreach (Entity illegalEntity in _illegalEntities)
                 {
-                    Entity member = groupMembers[j].Customer;
-
-
-                    if (Has<CRunningAway>(member))
+                    CPosition illegalEntityPos;
+                    if (!Require<CPosition>(illegalEntity, out illegalEntityPos))
                     {
-                        continue;
-                    }
-
-                    if (!Require<CPosition>(member, out CPosition memberPosition))
-                    {
-                        continue;
-                    }
-
-                    if (!Require<CSuspicionIndicator>(member, out CSuspicionIndicator cSuspicionIndicator))
-                        continue;
-
-                    foreach (Entity illegalEntity in _illegalEntities)
-                    {
-                        CPosition illegalEntityPos;
-                        if (!Require<CPosition>(illegalEntity, out illegalEntityPos))
-                        {
-                            if (Require<CHeldBy>(illegalEntity, out CHeldBy cHeldBy) && !Require<CPosition>(cHeldBy.Holder, out illegalEntityPos))
-                                continue;
-                        }
-
-                        // This is so they can only see the illegal entity if it is in the same room.
-                        if (TileManager.GetRoom(illegalEntityPos) != TileManager.GetRoom(memberPosition))
+                        if (Require<CHeldBy>(illegalEntity, out CHeldBy cHeldBy) && !Require<CPosition>(cHeldBy.Holder, out illegalEntityPos))
                             continue;
-
-                        // Checking if illegal entity is in customer's view
-                        cSuspicionIndicator.SeenIllegalThing = false;
-
-                        Vector3 vector = illegalEntityPos.Position - memberPosition.Position;
-                        float detectionDistance = 10f;
-                        if (vector.sqrMagnitude < detectionDistance)
-                        {
-                            Vector3 rhs = memberPosition.Forward(1f);
-                            if (Vector3.Dot(vector.normalized, rhs) > 1f - Mathf.Cos((float)Math.PI / 5f))
-                            {
-                                // Run away!
-                                cSuspicionIndicator.SeenIllegalThing = true;
-                            }
-                        }
-
-                        EntityManager.SetComponentData<CSuspicionIndicator>(member, cSuspicionIndicator);
                     }
+
+                    // Checking if illegal entity is in customer's view
+                    cSuspicionIndicator.SeenIllegalThing = false;
+
+                    Vector3 vector = illegalEntityPos.Position - customerPosition.Position;
+                    float detectionDistance = 10f;
+                    // This is so they can only see the illegal entity if it is in the same room.
+                    if (vector.sqrMagnitude < detectionDistance && TileManager.GetRoom(illegalEntityPos) == TileManager.GetRoom(customerPosition))
+                    {
+                        Vector3 rhs = customerPosition.Forward(1f);
+                        if (Vector3.Dot(vector.normalized, rhs) > 1f - Mathf.Cos((float)Math.PI / 6f))
+                        {
+                            // Run away!
+                            cSuspicionIndicator.SeenIllegalThing = true;
+                        }
+                    }
+
+                    EntityManager.SetComponentData<CSuspicionIndicator>(customer, cSuspicionIndicator);
                 }
             }
         }
