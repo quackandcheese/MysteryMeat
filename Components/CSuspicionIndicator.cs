@@ -1,4 +1,5 @@
 ﻿using KitchenMods;
+using KitchenMysteryMeat.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,12 +9,6 @@ using Unity.Entities;
 
 namespace KitchenMysteryMeat.Components
 {
-    public enum SuspicionIndicatorType 
-    {
-        Suspicious,
-        Alert
-    }
-
     public struct CSuspicionIndicator: IModComponent
     {
         public SuspicionIndicatorType IndicatorType;

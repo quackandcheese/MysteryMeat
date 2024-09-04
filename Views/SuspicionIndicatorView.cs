@@ -1,5 +1,6 @@
 ﻿using Kitchen;
 using KitchenMods;
+using KitchenMysteryMeat.Enums;
 using KitchenMysteryMeat.Components;
 using MessagePack;
 using System;
@@ -30,7 +31,7 @@ namespace KitchenMysteryMeat.Views
             if (Canvas == null || FillImage == null)
                 return;
             
-            bool shouldShowIndicator = data.RemainingTime < TotalTime || data.IndicatorType == SuspicionIndicatorType.Alert;
+            bool shouldShowIndicator = data.RemainingTime < data.TotalTime || data.IndicatorType == SuspicionIndicatorType.Alert;
             Canvas.SetActive(shouldShowIndicator);
 
             if (data.IndicatorType == SuspicionIndicatorType.Alert) 

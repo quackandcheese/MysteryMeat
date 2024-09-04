@@ -1,5 +1,6 @@
 ﻿using Kitchen;
 using KitchenMods;
+using KitchenMysteryMeat.Enums;
 using KitchenMysteryMeat.Components;
 using System;
 using System.Collections.Generic;
@@ -31,7 +32,7 @@ namespace KitchenMysteryMeat.Systems
             {
                 CSuspicionIndicator susIndicator = EntityManager.GetComponentData<CSuspicionIndicator>(customer);
 
-                if (susIndicator.TotalTime <= 0.0f || susIndicator.IndicatorType == SuspicionIndicatorType.Alert;)
+                if (susIndicator.TotalTime <= 0.0f || susIndicator.IndicatorType == SuspicionIndicatorType.Alert)
                     continue;
 
                 if (susIndicator.SeenIllegalThing) 
