@@ -78,7 +78,8 @@ namespace KitchenMysteryMeat.Systems
                         cSuspicionIndicator.SeenIllegalThing = false;
 
                         Vector3 vector = illegalEntityPos.Position - memberPosition.Position;
-                        if (vector.sqrMagnitude < 4f)
+                        float detectionDistance = 10f;
+                        if (vector.sqrMagnitude < detectionDistance)
                         {
                             Vector3 rhs = memberPosition.Forward(1f);
                             if (Vector3.Dot(vector.normalized, rhs) > 1f - Mathf.Cos((float)Math.PI / 5f))

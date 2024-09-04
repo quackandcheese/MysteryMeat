@@ -41,8 +41,8 @@ namespace KitchenMysteryMeat.Systems
                 EntityManager.AddComponentData(customer, new CSuspicionIndicator()
                 {
                     IndicatorType = Enums.SuspicionIndicatorType.Suspicious,
-                    TotalTime = 1.0f,
-                    RemainingTime = 1.0f,
+                    TotalTime = 1.5f,
+                    RemainingTime = 1.5f,
                 });
             }
         }

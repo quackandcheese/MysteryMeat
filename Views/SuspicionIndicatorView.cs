@@ -18,17 +18,22 @@ namespace KitchenMysteryMeat.Views
     public class SuspicionIndicatorView : UpdatableObjectView<SuspicionIndicatorView.ViewData>
     {
         public GameObject Canvas;
-        public Image FillImage;
+        public Image SuspicionIconFill;
+
+        public GameObject SuspicionIconParent;
+        public GameObject AlertIconParent;
 
         private void Awake()
         {
             Canvas = transform.Find("Canvas").gameObject;
-            FillImage = transform.Find("Canvas/Icon").GetComponent<Image>();
+            SuspicionIconParent = Canvas.transform.Find("Suspicion").gameObject;
+            AlertIconParent = Canvas.transform.Find("Alert").gameObject;
+            SuspicionIconFill = SuspicionIconParent.transform.Find("Icon").GetComponent<Image>();
         }
 
         protected override void UpdateData(SuspicionIndicatorView.ViewData data)
         {
-            if (Canvas == null || FillImage == null)
+            if (Canvas == null || SuspicionIconFill == null)
                 return;
             
             bool shouldShowIndicator = data.RemainingTime < data.TotalTime || data.IndicatorType == SuspicionIndicatorType.Alert;
@@ -37,15 +42,19 @@ namespace KitchenMysteryMeat.Views
             if (data.IndicatorType == SuspicionIndicatorType.Alert) 
             {
                 // Show Alert Indicator
+                AlertIconParent.SetActive(true);
+                SuspicionIconParent.SetActive(false);
             }
             else if (data.IndicatorType == SuspicionIndicatorType.Suspicious) 
             {
                 // Show Sus Indicator
+                SuspicionIconParent.SetActive(true);
+                AlertIconParent.SetActive(false);
 
                 if (data.RemainingTime > 0.0f)
                 {
                     // Fill amount starts from 0, then goes up
-                    FillImage.fillAmount = 1 - (data.RemainingTime / data.TotalTime);
+                    SuspicionIconFill.fillAmount = 1 - (data.RemainingTime / data.TotalTime);
                 }
             }            
         }
