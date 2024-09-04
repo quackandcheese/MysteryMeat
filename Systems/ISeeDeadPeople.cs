@@ -79,10 +79,15 @@ namespace KitchenMysteryMeat.Systems
                             if (Vector3.Dot(vector.normalized, rhs) > 1f - Mathf.Cos((float)Math.PI / 5f))
                             {
                                 // Run away!
-                                groupMembers.RemoveAt(j);
-                                EntityManager.AddComponent<CCustomerLeaving>(member);
-                                EntityManager.AddComponent<CRunningAway>(member);
-                                return;
+                                if (Require<CSuspicionIndicator>(member, out CSuspicionIndicator cSuspicionIndicator) && !Has<CRunningAway>(member))
+                                {
+                                    if (cSuspicionIndicator.Active)
+                                        return;
+
+                                    cSuspicionIndicator.Active = true;
+                                    EntityManager.SetComponentData<CSuspicionIndicator>(member, cSuspicionIndicator);
+                                    return;
+                                }
                             }
                         }
                     }

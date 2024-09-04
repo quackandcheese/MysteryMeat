@@ -1,5 +1,6 @@
 ﻿using Kitchen;
 using KitchenMods;
+using KitchenMysteryMeat.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,24 +13,37 @@ namespace KitchenMysteryMeat.Systems
 {
     public class AddComponentsToCustomers : GameSystemBase, IModSystem
     {
-        private EntityQuery _customers;
+        private EntityQuery CustomersWithoutInteractive;
+        private EntityQuery CustomersWithoutSuspicionIndicator;
         protected override void Initialise()
         {
-            _customers = GetEntityQuery(new QueryHelper()
+            CustomersWithoutInteractive = GetEntityQuery(new QueryHelper()
                             .All(typeof(CCustomer))
                             .None(
                                 typeof(CIsInteractive)
+                            ));
+
+            CustomersWithoutSuspicionIndicator = GetEntityQuery(new QueryHelper()
+                            .All(typeof(CCustomer))
+                            .None(
+                                typeof(CSuspicionIndicator)
                             ));
         }
 
         protected override void OnUpdate()
         {
-            using (NativeArray<Entity> customers = _customers.ToEntityArray(Allocator.TempJob))
+            EntityManager.AddComponent<CIsInteractive>(CustomersWithoutInteractive);
+
+            using NativeArray<Entity> _customersWithoutSuspicionIndicator = CustomersWithoutSuspicionIndicator.ToEntityArray(Allocator.TempJob);
+
+            foreach (Entity customer in _customersWithoutSuspicionIndicator)
             {
-                foreach (Entity customer in customers)
+                EntityManager.AddComponentData(customer, new CSuspicionIndicator()
                 {
-                    EntityManager.AddComponent<CIsInteractive>(customer);
-                }
+                    Active = false,
+                    TotalTime = 1.0f,
+                    RemainingTime = 1.0f,
+                });
             }
         }
     }
