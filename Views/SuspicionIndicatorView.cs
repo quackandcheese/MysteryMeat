@@ -19,10 +19,8 @@ namespace KitchenMysteryMeat.Views
         public GameObject Canvas;
         public Image FillImage;
 
-        public override void Initialise()
+        private void Awake()
         {
-            base.Initialise();
-
             Canvas = transform.Find("Canvas").gameObject;
             FillImage = transform.Find("Canvas/Icon").GetComponent<Image>();
         }
