@@ -23,16 +23,19 @@ namespace KitchenMysteryMeat.Systems
     public class KillCustomers : DaySystem, IModSystem
     {
         EntityQuery CustomersToKill;
+        EntityQuery OrderIndicators;
 
         protected override void Initialise()
         {
             base.Initialise();
             CustomersToKill = GetEntityQuery(typeof(CCustomer), typeof(CKilled));
+            OrderIndicators = GetEntityQuery(typeof(CHasItemCollectionIndicator));
         }
 
         protected override void OnUpdate()
         {
             using NativeArray<Entity> _customers = CustomersToKill.ToEntityArray(Allocator.Temp);
+            using NativeArray<Entity> _orderIndicators = OrderIndicators.ToEntityArray(Allocator.Temp);
             EntityContext ctx = new EntityContext(EntityManager);
 
             for (int i = 0; i < _customers.Length; i++)
@@ -57,9 +60,26 @@ namespace KitchenMysteryMeat.Systems
                     groupMembers.RemoveAt(j);
                     break;
                 }
-                /*if (groupMembers.Length == 0)
+
+                // In case there are any order indicators that the customer has, destroy them before destroying the customer.
+                /*for (int j = _orderIndicators.Length - 1; j > -1; j--)
                 {
-                    EntityManager.DestroyEntity(belongsToGroup.Group);
+                    Entity indicatorEntity = _orderIndicators[j];
+
+                    CHasItemCollectionIndicator cIndicator = GetComponent<CHasItemCollectionIndicator>(indicatorEntity);
+                    if (!RequireBuffer<CDisplayedItem>(cIndicator.Indicator, out DynamicBuffer<CDisplayedItem> displayedItems))
+                        continue;
+                    if (!Require<CCustomerTablePlacement>(customer, out CCustomerTablePlacement tablePlacement))
+                        continue;
+                    foreach (CDisplayedItem displayedItem in displayedItems)
+                    {
+                        if (tablePlacement.SeatPosition == displayedItem.SeatPosition)
+                        {
+                            EntityManager.DestroyEntity(cIndicator.Indicator);
+                            break;
+                        }
+
+                    }
                 }*/
             }
 
@@ -92,8 +112,8 @@ namespace KitchenMysteryMeat.Systems
 
                 // This is so spills don't spawn out of bounds, becoming an uncleanable illegal sight
                 // Doesn't work though since mess request creates the mess appliances
-                if (!TileManager.IsSuitableEmptyTile(cPosition, allow_oob: false, allow_outside: true))
-                    continue;
+                /*if (!TileManager.IsSuitableEmptyTile(cPosition, allow_oob: false, allow_outside: true))
+                    continue;*/
 
                 ctx.Set<CPosition>(bloodSpill, new CPosition(cPosition.Position));
             }

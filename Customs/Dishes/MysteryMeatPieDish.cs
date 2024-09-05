@@ -31,6 +31,18 @@ namespace KitchenMysteryMeat.Customs.Dishes
             (Dish)GDOUtils.GetCustomGameDataObject<MysteryMeatBurgerDish>().GameDataObject
         };
 
+        public override List<Dish.MenuItem> ResultingMenuItems => new List<Dish.MenuItem>
+        {
+            new Dish.MenuItem
+            {
+                Item = (Item)GDOUtils.GetExistingGDO(ItemReferences.PiePlated),
+                Phase = MenuPhase.Main,
+                Weight = 1,
+                
+            }
+        };
+
+
         public override HashSet<Dish.IngredientUnlock> IngredientsUnlocks => new HashSet<Dish.IngredientUnlock>
         {
             new Dish.IngredientUnlock
