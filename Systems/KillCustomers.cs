@@ -58,6 +58,9 @@ namespace KitchenMysteryMeat.Systems
                     if (groupMembers[j].Customer != customer)
                         continue;
                     groupMembers.RemoveAt(j);
+
+                    if (RequireBuffer<CWaitingForItem>(belongsToGroup.Group, out DynamicBuffer<CWaitingForItem> waitingForItems))
+                        waitingForItems.RemoveAt(j);
                     break;
                 }
 
@@ -71,11 +74,14 @@ namespace KitchenMysteryMeat.Systems
                         continue;
                     if (!Require<CCustomerTablePlacement>(customer, out CCustomerTablePlacement tablePlacement))
                         continue;
-                    foreach (CDisplayedItem displayedItem in displayedItems)
+                    for (int k = displayedItems.Length - 1; k > -1; k--)
                     {
+                        CDisplayedItem displayedItem = displayedItems[k];
+
                         if (tablePlacement.SeatPosition == displayedItem.SeatPosition)
                         {
-                            EntityManager.DestroyEntity(cIndicator.Indicator);
+                            // IT WORKS, BUT I THINK WRONG WAITING FOR ITEM IS GETTING DELETED OR SOMETHING
+                            displayedItems.RemoveAt(k);
                             break;
                         }
 
