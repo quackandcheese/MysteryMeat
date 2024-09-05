@@ -31,13 +31,12 @@ namespace KitchenMysteryMeat.Customs.Dishes
             (Dish)GDOUtils.GetCustomGameDataObject<MysteryMeatBurgerDish>().GameDataObject
         };
 
-        public override List<Dish.MenuItem> ResultingMenuItems => new List<Dish.MenuItem>
+        public override HashSet<Dish.IngredientUnlock> IngredientsUnlocks => new HashSet<Dish.IngredientUnlock>
         {
-            new Dish.MenuItem
+            new Dish.IngredientUnlock
             {
-                Item = (Item)GDOUtils.GetExistingGDO(ItemReferences.PieMeatCooked),
-                Phase = MenuPhase.Main,
-                Weight = 1
+                Ingredient = (Item)GDOUtils.GetExistingGDO(ItemReferences.PieMeatCooked),
+                MenuItem = (ItemGroup)GDOUtils.GetExistingGDO(ItemReferences.PiePlated)
             }
         };
 
