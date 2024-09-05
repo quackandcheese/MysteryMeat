@@ -52,17 +52,28 @@ namespace KitchenMysteryMeat.Systems
 
                     continue;
 
-
+                int targetedIndex = 0;
                 for (int j = groupMembers.Length - 1; j > -1; j--)
                 {
                     if (groupMembers[j].Customer != customer)
                         continue;
                     groupMembers.RemoveAt(j);
-
-                    if (RequireBuffer<CWaitingForItem>(belongsToGroup.Group, out DynamicBuffer<CWaitingForItem> waitingForItems))
-                        waitingForItems.RemoveAt(j);
+                    targetedIndex = j;
                     break;
                 }
+
+                if (RequireBuffer<CWaitingForItem>(belongsToGroup.Group, out DynamicBuffer<CWaitingForItem> waitingForItems))
+                {
+                    for (int j = waitingForItems.Length - 1; j > -1; j--)
+                    {
+                        if (waitingForItems[j].MemberIndex != targetedIndex)
+                            continue;
+                        waitingForItems.RemoveAt(j);
+                        break;
+                    }
+                }
+                    
+                
 
                 // In case there are any order indicators that the customer has, destroy them before destroying the customer.
                 /*for (int j = _orderIndicators.Length - 1; j > -1; j--)
