@@ -54,7 +54,6 @@ namespace KitchenMysteryMeat.Systems
                     }
 
                     // Checking if illegal entity is in customer's view
-                    cSuspicionIndicator.SeenIllegalThing = false;
 
                     Vector3 vector = illegalEntityPos.Position - customerPosition.Position;
                     float detectionDistance = 10f;
@@ -65,11 +64,18 @@ namespace KitchenMysteryMeat.Systems
                         if (Vector3.Dot(vector.normalized, rhs) > 1f - Mathf.Cos((float)Math.PI / 6f))
                         {
                             // Run away!
-                            cSuspicionIndicator.SeenIllegalThing = true;
+                            cSuspicionIndicator.SeenIllegalThing = illegalEntity;
+                            EntityManager.SetComponentData<CSuspicionIndicator>(customer, cSuspicionIndicator);
+                            continue;
                         }
                     }
 
-                    EntityManager.SetComponentData<CSuspicionIndicator>(customer, cSuspicionIndicator);
+                    if (cSuspicionIndicator.SeenIllegalThing == illegalEntity)
+                    {
+                        cSuspicionIndicator.SeenIllegalThing = null;
+                        EntityManager.SetComponentData<CSuspicionIndicator>(customer, cSuspicionIndicator);
+                    }
+
                 }
             }
         }

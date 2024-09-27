@@ -12,7 +12,7 @@ namespace KitchenMysteryMeat.Components
     public struct CSuspicionIndicator: IModComponent
     {
         public SuspicionIndicatorType IndicatorType;
-        public bool SeenIllegalThing;
+        public Entity? SeenIllegalThing;
         public float TotalTime;
         public float RemainingTime;
     }
