@@ -48,6 +48,10 @@ namespace KitchenMysteryMeat.Customs.Items
                 OverwriteOtherMesses = false
             },
             new CIllegalSight(),
+            new CPreventItemMerge()
+            {
+                Condition = MergeCondition.OnlyAsFirstSplitElement
+            }
         };
 
         public override void OnRegister(Item item)

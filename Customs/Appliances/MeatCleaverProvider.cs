@@ -18,6 +18,7 @@ namespace KitchenMysteryMeat.Customs.Appliances
         public override GameObject Prefab => Mod.Bundle.LoadAsset<GameObject>("Meat Cleaver Provider").AssignMaterialsByNames().AssignVFXByNames();
         public override PriceTier PriceTier => PriceTier.VeryExpensive;
         public override RarityTier RarityTier => RarityTier.Uncommon;
+        public override bool SellOnlyAsDuplicate => true;
         public override bool IsPurchasable => true;
         public override ShoppingTags ShoppingTags => ShoppingTags.Misc;
 
