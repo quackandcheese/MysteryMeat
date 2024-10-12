@@ -60,7 +60,8 @@ namespace KitchenMysteryMeat.Customs.Dishes
         };
 
         // IconPrefab - This is the Icon displayed in the lobby.
-        public override GameObject IconPrefab => (GDOUtils.GetExistingGDO(DishReferences.BurgerBase) as Dish).IconPrefab;
+        public override GameObject IconPrefab => Mod.Bundle.LoadAsset<GameObject>("Mystery Meat - Icon").AssignMaterialsByNames();
+        public override GameObject DisplayPrefab => (GDOUtils.GetExistingGDO(DishReferences.BurgerBase) as Dish).DisplayPrefab;
 
         // ResultingMenuItems - What menu Items are available to customers after unlocking this Dish.
         public override List<Dish.MenuItem> ResultingMenuItems => new List<Dish.MenuItem>

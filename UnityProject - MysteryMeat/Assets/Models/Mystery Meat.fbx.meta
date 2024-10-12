@@ -3,7 +3,17 @@ guid: c1fc5286998a11045a3c9c7c1b877552
 ModelImporter:
   serializedVersion: 20300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Rare
+    second: {fileID: 2100000, guid: 62be485be198fd248bd784c9863f8d6b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Rare Fat
+    second: {fileID: 2100000, guid: 06105d19916b0d24da8acc63d6a57c71, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

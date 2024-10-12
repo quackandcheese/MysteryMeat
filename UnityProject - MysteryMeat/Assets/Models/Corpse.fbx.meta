@@ -3,7 +3,22 @@ guid: 4ad9060bb4e3b4a43a96b02cd5196ad3
 ModelImporter:
   serializedVersion: 20300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Customer
+    second: {fileID: 2100000, guid: f42c432428fe8484bb16e7be710d5f3b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Raw
+    second: {fileID: 2100000, guid: 62be485be198fd248bd784c9863f8d6b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Raw - Fat
+    second: {fileID: 2100000, guid: 06105d19916b0d24da8acc63d6a57c71, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

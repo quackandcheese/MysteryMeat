@@ -39,6 +39,9 @@ namespace KitchenMysteryMeat.Systems
                 if (cItemUndergoingProcess.Process != cProcessCausesSpill.Process)
                     continue;
 
+                if (cItemUndergoingProcess.Progress >= 0.9)
+                    continue;
+
                 if (UnityEngine.Random.value < cProcessCausesSpill.Rate * Time.DeltaTime)
                 {
                     Entity spill = EntityManager.CreateEntity();
