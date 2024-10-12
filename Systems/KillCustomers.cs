@@ -116,8 +116,9 @@ namespace KitchenMysteryMeat.Systems
             ctx.Set<CPosition>(corpse, new CPosition(cPosition.Position, cPosition.Rotation));
 
             // Creating blood spills
-            int minbloodSpills = 0;
-            int maxbloodSpills = 2;
+            int minbloodSpills = HasStatus((RestaurantStatus)VariousUtils.GetID("messymurder")) ? 1 : 0;
+            int maxbloodSpills = HasStatus((RestaurantStatus)VariousUtils.GetID("messymurder")) ? 3 : 2;
+
             for (int i = 0; i < UnityEngine.Random.Range(minbloodSpills, maxbloodSpills + 1); i++)
             {
                 Entity bloodSpill = ctx.CreateEntity();

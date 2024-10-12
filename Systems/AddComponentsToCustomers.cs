@@ -1,4 +1,6 @@
 ﻿using Kitchen;
+using KitchenData;
+using KitchenLib.Utils;
 using KitchenMods;
 using KitchenMysteryMeat.Components;
 using System;
@@ -36,13 +38,15 @@ namespace KitchenMysteryMeat.Systems
 
             using NativeArray<Entity> _customersWithoutSuspicionIndicator = CustomersWithoutSuspicionIndicator.ToEntityArray(Allocator.TempJob);
 
+            float totalTime = HasStatus((RestaurantStatus)VariousUtils.GetID("cautiouscrowd")) ? 0.75f : 1.5f;
+
             foreach (Entity customer in _customersWithoutSuspicionIndicator)
             {
                 EntityManager.AddComponentData(customer, new CSuspicionIndicator()
                 {
                     IndicatorType = Enums.SuspicionIndicatorType.Suspicious,
-                    TotalTime = 1.5f,
-                    RemainingTime = 1.5f,
+                    TotalTime = totalTime,
+                    RemainingTime = totalTime,
                 });
             }
         }
