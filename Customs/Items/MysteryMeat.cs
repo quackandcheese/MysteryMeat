@@ -4,6 +4,7 @@ using KitchenLib.Customs;
 using KitchenLib.References;
 using KitchenLib.Utils;
 using KitchenMysteryMeat.Customs.Appliances;
+using KitchenMysteryMeat.Customs.Processes;
 using UnityEngine;
 
 namespace KitchenMysteryMeat.Customs.Items
@@ -22,6 +23,12 @@ namespace KitchenMysteryMeat.Customs.Items
                 Process = (Process)GDOUtils.GetExistingGDO(ProcessReferences.Chop),
                 Duration = 1.0f,
                 Result = (Item)GDOUtils.GetExistingGDO(ItemReferences.MeatChopped),
+            },
+            new Item.ItemProcess
+            {
+                Duration = 2.0f,
+                Process = GDOUtils.GetCastedGDO<Process, GrindMeat>(),
+                Result = (Item)GDOUtils.GetExistingGDO(ItemReferences.Mince)
             }
         };
     }

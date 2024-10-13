@@ -48,6 +48,12 @@ namespace KitchenMysteryMeat.Systems
             {
                 EntityManager.AddComponent<CPoisoned>(playerHeldItem.HeldItem);
             }
+            else
+            {
+                return;
+            }
+
+            CSoundEvent.Create(EntityManager, Mod.PoisonSoundEvent);
         }
     }
 }

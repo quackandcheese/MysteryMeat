@@ -28,7 +28,7 @@ namespace KitchenMysteryMeat.Customs.Dishes
         public override CardType CardType => CardType.Default;
 
         // CustomerMultiplier - Determines the customer difference this Unlock provides.
-        public override DishCustomerChange CustomerMultiplier => DishCustomerChange.SmallDecrease;
+        public override DishCustomerChange CustomerMultiplier => DishCustomerChange.LargeDecrease;
 
         // Type - This is used to decide what phase this Dish should be ordered.
         public override DishType Type => DishType.Base;
@@ -47,7 +47,6 @@ namespace KitchenMysteryMeat.Customs.Dishes
         public override HashSet<Item> MinimumIngredients => new HashSet<Item>()
         {
             (Item)GDOUtils.GetCustomGameDataObject<MeatCleaver>().GameDataObject,
-            (Item)GDOUtils.GetExistingGDO(ItemReferences.Egg),
             (Item)GDOUtils.GetExistingGDO(ItemReferences.BurgerBun),
             (Item)GDOUtils.GetExistingGDO(ItemReferences.Water),
             (Item)GDOUtils.GetExistingGDO(ItemReferences.Plate),
@@ -87,7 +86,7 @@ namespace KitchenMysteryMeat.Customs.Dishes
         // Recipe - This is the recipe displayed when unlocking this Dish.
         public override Dictionary<Locale, string> Recipe => new Dictionary<Locale, string>
         {
-            { Locale.English, "Chop up 'fresh meat' and combine with cracked egg to form patty. Cook burger patty and add bun." }
+            { Locale.English, "Put 'fresh meat' in meat grinder to get minced meat. Knead to form patty. Cook burger patty and add bun." }
         };
 
         // InfoList - This is used to assign localisation to this Dish.

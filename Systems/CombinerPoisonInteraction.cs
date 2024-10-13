@@ -68,9 +68,10 @@ namespace KitchenMysteryMeat.Systems
                 });
                 if (auto.Type == InteractionType.Grab)
                 {
-                    if (base.Require<CItemHolder>(occupant, out var occupantItem) && !base.Has<CPoisoned>(occupantItem.HeldItem))
+                    if (base.Require<CItemHolder>(occupant, out var occupantItem) && occupantItem.HeldItem != Entity.Null && !base.Has<CPoisoned>(occupantItem.HeldItem))
                     {
                         EntityManager.AddComponent<CPoisoned>(occupantItem.HeldItem);
+                        CSoundEvent.Create(EntityManager, Mod.PoisonSoundEvent);
                     }
                 }
             }
