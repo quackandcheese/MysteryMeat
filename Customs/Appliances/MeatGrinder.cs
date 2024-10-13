@@ -3,7 +3,9 @@ using Kitchen.Components;
 using KitchenData;
 using KitchenLib.Customs;
 using KitchenLib.Utils;
+using KitchenMysteryMeat.Components;
 using KitchenMysteryMeat.Customs.Processes;
+using KitchenMysteryMeat.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,6 +46,7 @@ namespace KitchenMysteryMeat.Customs.Appliances
                 IgnoreProcessingItems = true,
             },
             new CConveyCooldown(),
+            new CMeatGrinder(),
         };
 
 
@@ -80,6 +83,9 @@ namespace KitchenMysteryMeat.Customs.Appliances
 
             ConveyItemsView conveyItemsView = gameDataObject.Prefab.AddComponent<ConveyItemsView>();
             pushObject.SetValue(conveyItemsView, GameObjectUtils.GetChildObject(gameDataObject.Prefab, "GameObject/HoldPoint"));
+
+
+            MeatGrinderView meatGrinderView = gameDataObject.Prefab.AddComponent<MeatGrinderView>();
         }
     }
 }
