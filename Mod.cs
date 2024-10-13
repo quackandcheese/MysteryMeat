@@ -34,6 +34,7 @@ namespace KitchenMysteryMeat
 
         public static SoundEvent StabSoundEvent;
         public static SoundEvent PoisonSoundEvent;
+        public static SoundEvent AlertSoundEvent;
 
         protected override void OnInitialise()
         {
@@ -98,6 +99,19 @@ namespace KitchenMysteryMeat
             typeof(AudioAsset)
                 .GetField("Clip", BindingFlags.Instance | BindingFlags.NonPublic)
                 .SetValue(gameData.ReferableObjects.Clips[PoisonSoundEvent], poison1);
+            #endregion
+
+            #region Alert
+            AlertSoundEvent = (SoundEvent)VariousUtils.GetID(MOD_GUID + "-ALERT");
+
+            if (!gameData.ReferableObjects.Clips.ContainsKey(AlertSoundEvent))
+                gameData.ReferableObjects.Clips.Add(AlertSoundEvent, new AudioAsset());
+
+            var alert1 = Bundle.LoadAsset<AudioClip>("alert"); alert1.LoadAudioData();
+
+            typeof(AudioAsset)
+                .GetField("Clip", BindingFlags.Instance | BindingFlags.NonPublic)
+                .SetValue(gameData.ReferableObjects.Clips[AlertSoundEvent], alert1);
             #endregion
         }
     }

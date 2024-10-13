@@ -68,6 +68,8 @@ namespace KitchenMysteryMeat.Systems
                     EntityManager.AddComponent<CCustomerLeaving>(customer);
                     EntityManager.AddComponent<CRunningAway>(customer);
                     EntityManager.SetComponentData(customer, susIndicator);
+
+                    CSoundEvent.Create(EntityManager, Mod.AlertSoundEvent);
                 }
             }
         }

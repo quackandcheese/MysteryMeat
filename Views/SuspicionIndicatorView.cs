@@ -12,6 +12,7 @@ using Unity.Collections;
 using Unity.Entities;
 using UnityEngine;
 using UnityEngine.UI;
+using Kitchen.Components;
 
 namespace KitchenMysteryMeat.Views
 {
@@ -22,6 +23,12 @@ namespace KitchenMysteryMeat.Views
 
         public GameObject SuspicionIconParent;
         public GameObject AlertIconParent;
+
+        public AudioClip SuspicionClip;
+        private SoundSource SuspicionSound;
+
+        public AudioClip AlertClip;
+        private SoundSource AlertSound;
 
         private void Awake()
         {
@@ -35,15 +42,30 @@ namespace KitchenMysteryMeat.Views
         {
             if (Canvas == null || SuspicionIconFill == null)
                 return;
-            
+
+            // Setup sus sound
+            if (SuspicionClip != null)
+            {
+                if (!SuspicionSound)
+                {
+                    SuspicionSound = base.gameObject.AddComponent<SoundSource>();
+                    SuspicionSound.Configure(SoundCategory.Effects, SuspicionClip);
+                }
+            }
+
             bool shouldShowIndicator = data.RemainingTime < data.TotalTime || data.IndicatorType == SuspicionIndicatorType.Alert;
             Canvas.SetActive(shouldShowIndicator);
+            if (!shouldShowIndicator)
+                SuspicionSound.Stop();
+
 
             if (data.IndicatorType == SuspicionIndicatorType.Alert) 
             {
                 // Show Alert Indicator
                 AlertIconParent.SetActive(true);
                 SuspicionIconParent.SetActive(false);
+
+                SuspicionSound.Stop();
             }
             else if (data.IndicatorType == SuspicionIndicatorType.Suspicious) 
             {
@@ -55,6 +77,11 @@ namespace KitchenMysteryMeat.Views
                 {
                     // Fill amount starts from 0, then goes up
                     SuspicionIconFill.fillAmount = 1 - (data.RemainingTime / data.TotalTime);
+
+                    if (!SuspicionSound.IsPlaying || SuspicionSound.TargetVolume == 0)
+                        SuspicionSound.Play();
+                    SuspicionSound.VolumeMultiplier = SuspicionIconFill.fillAmount;
+                    SuspicionSound.Pitch = 0.5f + (1.5f * SuspicionIconFill.fillAmount);
                 }
             }            
         }

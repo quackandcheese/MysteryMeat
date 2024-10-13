@@ -22,7 +22,8 @@ namespace KitchenMysteryMeat.Patches
             if (view_type == ViewType.Customer && __result != null && __result.GetComponentInChildren<SuspicionIndicatorView>() == null)
             {
                 GameObject indicator = GameObject.Instantiate(Mod.Bundle.LoadAsset<GameObject>("SuspicionIndicator"));
-                indicator.AddComponent<SuspicionIndicatorView>();
+                SuspicionIndicatorView indicatorView = indicator.AddComponent<SuspicionIndicatorView>();
+                indicatorView.SuspicionClip = Mod.Bundle.LoadAsset<AudioClip>("suspicion.ogg");
                 indicator.transform.SetParent(__result.transform);
             }
         }
