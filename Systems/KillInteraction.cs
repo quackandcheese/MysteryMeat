@@ -30,7 +30,7 @@ namespace KitchenMysteryMeat.Systems
 
         protected override void Perform(ref InteractionData data)
         {
-            EntityManager.AddComponent<CKilled>(data.Target);
+            EntityManager.AddComponentData<CKilled>(data.Target, new CKilled() { Bloody = true });
         }
     }
 }

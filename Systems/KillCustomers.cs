@@ -43,15 +43,16 @@ namespace KitchenMysteryMeat.Systems
                 Entity customer = _customers[i];
 
                 CPosition customerPosition = EntityManager.GetComponentData<CPosition>(customer);
-                CreateCorpse(ctx, customerPosition);
+                CKilled cKilled = EntityManager.GetComponentData<CKilled>(customer);
 
-                // Destroy order indicator
+                CreateCorpse(ctx, customerPosition, cKilled.Bloody);
 
                 if (!Require(customer, out CBelongsToGroup belongsToGroup) ||
                     !RequireBuffer(belongsToGroup.Group, out DynamicBuffer<CGroupMember> groupMembers))
 
                     continue;
 
+                // Remove from customer group
                 int targetedIndex = 0;
                 for (int j = groupMembers.Length - 1; j > -1; j--)
                 {
@@ -62,6 +63,7 @@ namespace KitchenMysteryMeat.Systems
                     break;
                 }
 
+                // Remove from orders
                 if (RequireBuffer<CWaitingForItem>(belongsToGroup.Group, out DynamicBuffer<CWaitingForItem> waitingForItems))
                 {
                     for (int j = waitingForItems.Length - 1; j > -1; j--)
@@ -72,38 +74,12 @@ namespace KitchenMysteryMeat.Systems
                         break;
                     }
                 }
-                    
-                
-
-                // In case there are any order indicators that the customer has, destroy them before destroying the customer.
-                /*for (int j = _orderIndicators.Length - 1; j > -1; j--)
-                {
-                    Entity indicatorEntity = _orderIndicators[j];
-
-                    CHasItemCollectionIndicator cIndicator = GetComponent<CHasItemCollectionIndicator>(indicatorEntity);
-                    if (!RequireBuffer<CDisplayedItem>(cIndicator.Indicator, out DynamicBuffer<CDisplayedItem> displayedItems))
-                        continue;
-                    if (!Require<CCustomerTablePlacement>(customer, out CCustomerTablePlacement tablePlacement))
-                        continue;
-                    for (int k = displayedItems.Length - 1; k > -1; k--)
-                    {
-                        CDisplayedItem displayedItem = displayedItems[k];
-
-                        if (tablePlacement.SeatPosition == displayedItem.SeatPosition)
-                        {
-                            // IT WORKS, BUT I THINK WRONG WAITING FOR ITEM IS GETTING DELETED OR SOMETHING
-                            displayedItems.RemoveAt(k);
-                            break;
-                        }
-
-                    }
-                }*/
             }
 
             EntityManager.DestroyEntity(CustomersToKill);
         }
 
-        private void CreateCorpse(EntityContext ctx, CPosition cPosition)
+        private void CreateCorpse(EntityContext ctx, CPosition cPosition, bool bloody)
         {
             // Creating corpse
             Entity corpse = ctx.CreateEntity();
@@ -114,6 +90,9 @@ namespace KitchenMysteryMeat.Systems
                 ForceLayer = OccupancyLayer.Ceiling
             });
             ctx.Set<CPosition>(corpse, new CPosition(cPosition.Position, cPosition.Rotation));
+
+            if (!bloody)
+                return;
 
             // Creating blood spills
             int minbloodSpills = HasStatus((RestaurantStatus)VariousUtils.GetID("messymurder")) ? 1 : 0;

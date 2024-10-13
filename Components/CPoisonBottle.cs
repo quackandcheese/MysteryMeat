@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 
 namespace KitchenMysteryMeat.Components
 {
-    public struct CKilled : IModComponent
+    public struct CPoisonBottle : IModComponent, IItemProperty, IAttachableProperty
     {
-        public bool Bloody;
     }
 }
