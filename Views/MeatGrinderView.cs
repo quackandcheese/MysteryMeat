@@ -36,6 +36,8 @@ namespace KitchenMysteryMeat.Views
             {
                 HoldPoint.transform.localPosition = new Vector3(0, 1.147f, -0.032f);
             }
+            float inverseProgress = 1 - data.ProcessProgress;
+            HoldPoint.transform.localScale = new Vector3(inverseProgress, inverseProgress, inverseProgress);
         }
 
         public class UpdateView : IncrementalViewSystemBase<ViewData>, IModSystem
@@ -44,7 +46,7 @@ namespace KitchenMysteryMeat.Views
             protected override void Initialise()
             {
                 base.Initialise();
-                query = GetEntityQuery(new QueryHelper().All(typeof(CLinkedView), typeof(CMeatGrinder), typeof(CConveyPushItems)));
+                query = GetEntityQuery(new QueryHelper().All(typeof(CLinkedView), typeof(CMeatGrinder), typeof(CConveyPushItems), typeof(CApplyingProcess)));
             }
 
             protected override void OnUpdate()
@@ -52,16 +54,19 @@ namespace KitchenMysteryMeat.Views
                 using var views = query.ToComponentDataArray<CLinkedView>(Allocator.Temp);
                 using var meatGrinders = query.ToComponentDataArray<CMeatGrinder>(Allocator.Temp);
                 using var conveyPushItemsComponents = query.ToComponentDataArray<CConveyPushItems>(Allocator.Temp);
+                using var applyingProcessComponents = query.ToComponentDataArray<CApplyingProcess>(Allocator.Temp);
 
                 for (var i = 0; i < views.Length; i++)
                 {
                     var view = views[i];
                     var meatGrinder = meatGrinders[i];
                     var conveyPushItems = conveyPushItemsComponents[i];
+                    var applyingProcess = applyingProcessComponents[i];
 
                     SendUpdate(view, new ViewData
                     {
                         ConveyProgress = conveyPushItems.Progress,
+                        ProcessProgress = applyingProcess.Progress
                     }, MessageType.SpecificViewUpdate);
                 }
             }
@@ -71,10 +76,11 @@ namespace KitchenMysteryMeat.Views
         public struct ViewData : ISpecificViewData, IViewData, IViewResponseData, IViewData.ICheckForChanges<ViewData>
         {
             [Key(0)] public float ConveyProgress;
+            [Key(1)] public float ProcessProgress;
 
             public IUpdatableObject GetRelevantSubview(IObjectView view) => view.GetSubView<MeatGrinderView>();
 
-            public bool IsChangedFrom(ViewData check) => check.ConveyProgress != ConveyProgress;
+            public bool IsChangedFrom(ViewData check) => check.ConveyProgress != ConveyProgress || check.ProcessProgress != ProcessProgress;
         }
     }
 }
