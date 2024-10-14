@@ -38,7 +38,7 @@ namespace KitchenMysteryMeat.Systems
 
             using NativeArray<Entity> _customersWithoutSuspicionIndicator = CustomersWithoutSuspicionIndicator.ToEntityArray(Allocator.TempJob);
 
-            float totalTime = HasStatus((RestaurantStatus)VariousUtils.GetID("cautiouscrowd")) ? 1.5f : 3.0f;
+            float totalTime = HasStatus((RestaurantStatus)VariousUtils.GetID("cautiouscrowd")) ? 1.0f : 2.0f;
 
             foreach (Entity customer in _customersWithoutSuspicionIndicator)
             {

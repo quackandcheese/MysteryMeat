@@ -4,6 +4,8 @@ using KitchenLib.Customs;
 using KitchenLib.References;
 using KitchenLib.Utils;
 using KitchenMysteryMeat.Customs.Items;
+using KitchenMysteryMeat.Customs.Processes;
+
 
 //using KitchenMysteryMeat.Customs.ItemGroups;
 //using KitchenMysteryMeat.Customs.Items;
@@ -55,7 +57,8 @@ namespace KitchenMysteryMeat.Customs.Dishes
         // RequiredProcesses - The processes required to make this Dish.
         public override HashSet<Process> RequiredProcesses => new HashSet<Process>
         {
-            (Process)GDOUtils.GetExistingGDO(ProcessReferences.Cook)
+            (Process)GDOUtils.GetExistingGDO(ProcessReferences.Cook),
+            GDOUtils.GetCastedGDO<Process, GrindMeat>()
         };
 
         // IconPrefab - This is the Icon displayed in the lobby.
