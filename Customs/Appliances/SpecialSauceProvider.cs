@@ -39,7 +39,7 @@ namespace KitchenMysteryMeat.Customs.Appliances
 
         public override void OnRegister(Appliance gameDataObject)
         {
-            Helper.SetupCounterLimitedItem(Prefab, Mod.Bundle.LoadAsset<GameObject>("Special Sauce Bottle").AssignMaterialsByNames().AssignVFXByNames());
+            Helper.SetupCounterLimitedItem(Prefab, Mod.Bundle.LoadAsset<GameObject>("Empty Special Sauce Bottle").AssignMaterialsByNames().AssignVFXByNames());
         }
     }
 }

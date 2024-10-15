@@ -16,7 +16,7 @@ namespace KitchenMysteryMeat.Customs.Items
     public class EmptySpecialSauceBottle : CustomItem
     {
         public override string UniqueNameID => "EmptySpecialSauceBottle";
-        public override GameObject Prefab => Mod.Bundle.LoadAsset<GameObject>("Special Sauce Bottle").AssignMaterialsByNames();
+        public override GameObject Prefab => Mod.Bundle.LoadAsset<GameObject>("Empty Special Sauce Bottle").AssignMaterialsByNames();
         public override Appliance DedicatedProvider => (Appliance)GDOUtils.GetCustomGameDataObject<SpecialSauceProvider>().GameDataObject;
         public override bool IsIndisposable => true;
         public override ItemStorage ItemStorageFlags => ItemStorage.None;
