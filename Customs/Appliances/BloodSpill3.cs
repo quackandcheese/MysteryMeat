@@ -46,6 +46,10 @@ namespace KitchenMysteryMeat.Customs.Appliances
                 ShowWhenEmpty = false
             },
             new CIllegalSight(),
+            new CFillsBottle()
+            {
+                BottleID = GDOUtils.GetCustomGameDataObject<SpecialSauceBottle>().ID
+            }
         };
     }
 }

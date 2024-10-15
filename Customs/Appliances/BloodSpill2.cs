@@ -51,6 +51,10 @@ namespace KitchenMysteryMeat.Customs.Appliances
                 NextMess = GDOUtils.GetCustomGameDataObject<BloodSpill3>().ID
             },
             new CIllegalSight(),
+            new CFillsBottle()
+            {
+                BottleID = GDOUtils.GetCustomGameDataObject<SpecialSauceBottle>().ID
+            }
         };
     }
 }

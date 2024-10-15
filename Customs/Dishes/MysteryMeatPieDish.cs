@@ -38,7 +38,6 @@ namespace KitchenMysteryMeat.Customs.Dishes
                 Item = (Item)GDOUtils.GetExistingGDO(ItemReferences.PiePlated),
                 Phase = MenuPhase.Main,
                 Weight = 1,
-                
             }
         };
 
