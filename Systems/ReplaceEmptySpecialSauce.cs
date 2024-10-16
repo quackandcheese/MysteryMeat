@@ -35,6 +35,7 @@ namespace KitchenMysteryMeat.Systems
                     EntityManager.AddComponentData<CChangeItemType>(item, new CChangeItemType()
                     {
                         NewID = cLimitedUseBottle.EmptyBottleID,
+                        CollapseComponents = true
                     });
 
                     EntityManager.RemoveComponent<CLimitedUseBottle>(item);

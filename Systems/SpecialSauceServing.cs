@@ -12,7 +12,7 @@ using Unity.Entities;
 namespace KitchenMysteryMeat.Systems
 {
 
-    [UpdateBefore(typeof(GroupReceiveExtra))]
+    [UpdateAfter(typeof(GroupReceiveExtra))]
     public class SpecialSauceServing : GameSystemBase, IModSystem
     {
         private EntityQuery GroupQuery;
@@ -20,7 +20,7 @@ namespace KitchenMysteryMeat.Systems
         protected override void Initialise()
         {
             GroupQuery = GetEntityQuery(new QueryHelper()
-                            .All(typeof(CWaitingForItem), typeof(CGroupReward), typeof(CPatience), typeof(CGroupMember), typeof(CCustomerSettings), typeof(CItemHolder)));
+                            .All(typeof(CWaitingForItem), typeof(CGroupMember), typeof(CAssignedTable)));
         }
 
         protected override void OnUpdate()
@@ -31,22 +31,30 @@ namespace KitchenMysteryMeat.Systems
             {
                 DynamicBuffer<CWaitingForItem> orders = GetBuffer<CWaitingForItem>(group);
                 DynamicBuffer<CGroupMember> groupMembers = GetBuffer<CGroupMember>(group);
-                CItemHolder citemHolder = GetComponent<CItemHolder>(group);
+                CAssignedTable cAssignedTable = GetComponent<CAssignedTable>(group);
 
                 for (int i = 0; i < orders.Length; i++)
                 {
                     if (orders[i].ExtraSatisfied)
                     {
-                        if (citemHolder.HeldItem != Entity.Null && Require<CLimitedUseBottle>(citemHolder.HeldItem, out var limitedUseBottle))
+                        if (!RequireBuffer<CTableSetGrabPoints>(cAssignedTable.Table, out var cTableSetGrabPoints))
+                            continue;
+                        foreach (var table in cTableSetGrabPoints)
                         {
-                            // TODO: fix bug for double orders by same customer
-                            if (limitedUseBottle.LastUsedByCustomer == groupMembers[orders[i].MemberIndex].Customer)
+                            if (!Require<CItemHolder>(table, out var citemHolder))
                                 continue;
 
-                            limitedUseBottle.FillAmount -= 1;
-                            limitedUseBottle.LastUsedByCustomer = groupMembers[orders[i].MemberIndex].Customer;
+                            if (citemHolder.HeldItem != Entity.Null && Require<CLimitedUseBottle>(citemHolder.HeldItem, out var limitedUseBottle))
+                            {
+                                // TODO: fix bug for double orders by same customer
+                                if (limitedUseBottle.LastUsedByCustomer == groupMembers[orders[i].MemberIndex].Customer)
+                                    continue;
 
-                            EntityManager.SetComponentData(citemHolder.HeldItem, limitedUseBottle);
+                                limitedUseBottle.FillAmount -= 1;
+                                limitedUseBottle.LastUsedByCustomer = groupMembers[orders[i].MemberIndex].Customer;
+
+                                EntityManager.SetComponentData(citemHolder.HeldItem, limitedUseBottle);
+                            }
                         }
                     }
                 }
