@@ -19,7 +19,7 @@ namespace KitchenMysteryMeat.Patches
         [HarmonyPostfix]
         static void GetPrefab_Postfix(ref LocalViewRouter __instance, ViewType view_type, ref GameObject __result)
         {
-            if (view_type == ViewType.Customer && __result != null && __result.GetComponentInChildren<SuspicionIndicatorView>() == null)
+            if ((view_type == ViewType.Customer || view_type == ViewType.CustomerCat) && __result != null && __result.GetComponentInChildren<SuspicionIndicatorView>() == null)
             {
                 GameObject indicator = GameObject.Instantiate(Mod.Bundle.LoadAsset<GameObject>("SuspicionIndicator"));
                 SuspicionIndicatorView indicatorView = indicator.AddComponent<SuspicionIndicatorView>();
