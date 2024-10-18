@@ -1,5 +1,4 @@
 using Kitchen;
-using KitchenAmericanBreakfast.Sides;
 using KitchenData;
 using KitchenLib.Customs;
 using KitchenLib.References;
@@ -53,6 +52,7 @@ namespace KitchenMysteryMeat.Customs.Items
                 Condition = MergeCondition.OnlyAsFirstSplitElement
             }
         };
+        public override ItemStorage ItemStorageFlags => ItemStorage.OutsideRubbish;
 
         public override void OnRegister(Item item)
         {

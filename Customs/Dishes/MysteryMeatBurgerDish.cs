@@ -30,13 +30,13 @@ namespace KitchenMysteryMeat.Customs.Dishes
         public override CardType CardType => CardType.Default;
 
         // CustomerMultiplier - Determines the customer difference this Unlock provides.
-        public override DishCustomerChange CustomerMultiplier => DishCustomerChange.LargeDecrease;
+        public override DishCustomerChange CustomerMultiplier => DishCustomerChange.SmallDecrease;
 
         // Type - This is used to decide what phase this Dish should be ordered.
         public override DishType Type => DishType.Base;
 
         // Difficulty - This is displayed in the lobby. (0 - 5)
-        public override int Difficulty => 4;
+        public override int Difficulty => 3;
 
         // StartingNameSet - The list of names used to decide the default Restaurant name.
         public override List<string> StartingNameSet => new List<string>
