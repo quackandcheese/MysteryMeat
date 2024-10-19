@@ -578,7 +578,7 @@ GameObject:
   - component: {fileID: 4920713943518608}
   - component: {fileID: 1333714976657707161}
   m_Layer: 0
-  m_Name: Meat Grinder
+  m_Name: Automatic Meat Grinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

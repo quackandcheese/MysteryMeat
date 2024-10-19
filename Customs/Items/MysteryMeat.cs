@@ -3,6 +3,7 @@ using KitchenData;
 using KitchenLib.Customs;
 using KitchenLib.References;
 using KitchenLib.Utils;
+using KitchenMysteryMeat.Components;
 using KitchenMysteryMeat.Customs.Appliances;
 using KitchenMysteryMeat.Customs.Processes;
 using UnityEngine;
@@ -30,6 +31,11 @@ namespace KitchenMysteryMeat.Customs.Items
                 Process = GDOUtils.GetCastedGDO<Process, GrindMeat>(),
                 Result = (Item)GDOUtils.GetExistingGDO(ItemReferences.Mince)
             }
+        };
+
+        public override List<IItemProperty> Properties => new List<IItemProperty>()
+        {
+            new CGrindable()
         };
     }
 }

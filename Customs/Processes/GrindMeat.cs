@@ -17,7 +17,7 @@ namespace KitchenMysteryMeat.Customs.Processes
 
         // The "default" appliance of this process (e.g., counter for "chop", hob for "cook")
         // When a dish requires this process, this is the appliance that will spawn at the beginning of a run
-        public override GameDataObject BasicEnablingAppliance => (Appliance)GDOUtils.GetCustomGameDataObject<MeatGrinder>().GameDataObject;
+        public override GameDataObject BasicEnablingAppliance => (Appliance)GDOUtils.GetCustomGameDataObject<ManualMeatGrinder>().GameDataObject;
 
         // Whether or not the process can be obfuscated, such as through the "Blindfolded Chefs" card. This is normally set to `true`
         public override bool CanObfuscateProgress => true;

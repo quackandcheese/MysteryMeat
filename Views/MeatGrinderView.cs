@@ -28,13 +28,13 @@ namespace KitchenMysteryMeat.Views
 
         protected override void UpdateData(MeatGrinderView.ViewData data)
         {
-            if (data.ConveyProgress > 0.0f)
+            if (data.HasGrindableItem)
             {
-                HoldPoint.transform.localPosition = new Vector3(0, 0.666f, -0.128f);
+                HoldPoint.transform.localPosition = data.GrinderInputPosition;
             }
             else
             {
-                HoldPoint.transform.localPosition = new Vector3(0, 1.147f, -0.032f);
+                HoldPoint.transform.localPosition = data.GrinderOutputPosition;
             }
             float inverseProgress = 1 - data.ProcessProgress;
             HoldPoint.transform.localScale = new Vector3(inverseProgress, inverseProgress, inverseProgress);
@@ -46,27 +46,29 @@ namespace KitchenMysteryMeat.Views
             protected override void Initialise()
             {
                 base.Initialise();
-                query = GetEntityQuery(new QueryHelper().All(typeof(CLinkedView), typeof(CMeatGrinder), typeof(CConveyPushItems), typeof(CApplyingProcess)));
+                query = GetEntityQuery(new QueryHelper().All(typeof(CLinkedView), typeof(CMeatGrinder), typeof(CApplyingProcess), typeof(CItemHolder)));
             }
 
             protected override void OnUpdate()
             {
                 using var views = query.ToComponentDataArray<CLinkedView>(Allocator.Temp);
                 using var meatGrinders = query.ToComponentDataArray<CMeatGrinder>(Allocator.Temp);
-                using var conveyPushItemsComponents = query.ToComponentDataArray<CConveyPushItems>(Allocator.Temp);
                 using var applyingProcessComponents = query.ToComponentDataArray<CApplyingProcess>(Allocator.Temp);
+                using var itemHolders = query.ToComponentDataArray<CItemHolder>(Allocator.Temp);
 
                 for (var i = 0; i < views.Length; i++)
                 {
                     var view = views[i];
                     var meatGrinder = meatGrinders[i];
-                    var conveyPushItems = conveyPushItemsComponents[i];
                     var applyingProcess = applyingProcessComponents[i];
+                    var hasGrindable = Has<CGrindable>(itemHolders[i].HeldItem);
 
                     SendUpdate(view, new ViewData
                     {
-                        ConveyProgress = conveyPushItems.Progress,
-                        ProcessProgress = applyingProcess.Progress
+                        HasGrindableItem = hasGrindable,
+                        ProcessProgress = applyingProcess.Progress,
+                        GrinderInputPosition = meatGrinder.GrinderInputPosition,
+                        GrinderOutputPosition = meatGrinder.GrinderOutputPosition,
                     }, MessageType.SpecificViewUpdate);
                 }
             }
@@ -75,12 +77,14 @@ namespace KitchenMysteryMeat.Views
         [MessagePackObject(false)]
         public struct ViewData : ISpecificViewData, IViewData, IViewResponseData, IViewData.ICheckForChanges<ViewData>
         {
-            [Key(0)] public float ConveyProgress;
+            [Key(0)] public bool HasGrindableItem;
             [Key(1)] public float ProcessProgress;
+            [Key(2)] public Vector3 GrinderInputPosition;
+            [Key(3)] public Vector3 GrinderOutputPosition;
 
             public IUpdatableObject GetRelevantSubview(IObjectView view) => view.GetSubView<MeatGrinderView>();
 
-            public bool IsChangedFrom(ViewData check) => check.ConveyProgress != ConveyProgress || check.ProcessProgress != ProcessProgress;
+            public bool IsChangedFrom(ViewData check) => check.HasGrindableItem != HasGrindableItem || check.ProcessProgress != ProcessProgress;
         }
     }
 }

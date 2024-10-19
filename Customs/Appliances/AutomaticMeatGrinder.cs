@@ -16,17 +16,18 @@ using UnityEngine;
 
 namespace KitchenMysteryMeat.Customs.Appliances
 {
-    public class MeatGrinder : CustomAppliance
+    public class AutomaticMeatGrinder : CustomAppliance
     {
-        public override string UniqueNameID => "MeatGrinder";
-        public override GameObject Prefab => Mod.Bundle.LoadAsset<GameObject>("Meat Grinder").AssignMaterialsByNames();
+        public override string UniqueNameID => "AutomaticMeatGrinder";
+        public override GameObject Prefab => Mod.Bundle.LoadAsset<GameObject>("Automatic Meat Grinder").AssignMaterialsByNames();
         public override PriceTier PriceTier => PriceTier.Medium;
         public override bool SellOnlyAsDuplicate => true;
-        public override bool IsPurchasable => true;
+        public override bool IsPurchasable => false;
+        public override bool IsPurchasableAsUpgrade => true;
         public override ShoppingTags ShoppingTags => ShoppingTags.Cooking | ShoppingTags.Misc;
         public override List<(Locale, ApplianceInfo)> InfoList => new()
         {
-            ( Locale.English, LocalisationUtils.CreateApplianceInfo("Meat Grinder", "Use this to make mincemeat of someone. Literally.", new(), new()) )
+            ( Locale.English, LocalisationUtils.CreateApplianceInfo("Automatic Meat Grinder", "Use this to make mincemeat of someone. Literally.", new(), new()) )
         };
 
         public override List<IApplianceProperty> Properties => new()
@@ -46,7 +47,12 @@ namespace KitchenMysteryMeat.Customs.Appliances
                 IgnoreProcessingItems = true,
             },
             new CConveyCooldown(),
-            new CMeatGrinder(),
+            new CMeatGrinder()
+            {
+                GrindProcess = GDOUtils.GetCastedGDO<Process, GrindMeat>().ID,
+                GrinderInputPosition = new Vector3(0, 1.147f, -0.032f),
+                GrinderOutputPosition = new Vector3(0, 0.5f, -0.128f),
+            },
         };
 
 
