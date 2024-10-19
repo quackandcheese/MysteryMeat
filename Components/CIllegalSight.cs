@@ -10,5 +10,7 @@ namespace KitchenMysteryMeat.Components
 {
     public struct CIllegalSight : IModComponent, IAttachableProperty, IItemProperty, IApplianceProperty
     {
+        //public bool PersistBetweenDays;
+        public int TurnIntoOnDayStart;
     }
 }

@@ -1,24 +1,27 @@
-using System.Collections.Generic;
-using KitchenData;
+﻿using KitchenData;
 using KitchenLib.Customs;
 using KitchenLib.References;
 using KitchenLib.Utils;
 using KitchenMysteryMeat.Components;
 using KitchenMysteryMeat.Customs.Appliances;
 using KitchenMysteryMeat.Customs.Processes;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace KitchenMysteryMeat.Customs.Items
 {
-    public class MysteryMeat : CustomItem
+    public class RottenMysteryMeat : CustomItem
     {
-        public override string UniqueNameID => "MysteryMeat";
-        public override GameObject Prefab => Mod.Bundle.LoadAsset<GameObject>("Mystery Meat").AssignMaterialsByNames();
-        public override Appliance DedicatedProvider => (Appliance)GDOUtils.GetCustomGameDataObject<MeatCleaverProvider>().GameDataObject;
+        public override string UniqueNameID => "RottenMysteryMeat";
+        public override GameObject Prefab => Mod.Bundle.LoadAsset<GameObject>("Rotten Mystery Meat").AssignMaterialsByNames();
         public override ItemStorage ItemStorageFlags => ItemStorage.StackableFood;
 
 
-        public override List<Item.ItemProcess> Processes => new List<Item.ItemProcess>()
+        /*public override List<Item.ItemProcess> Processes => new List<Item.ItemProcess>()
         {
             new Item.ItemProcess()
             {
@@ -37,6 +40,6 @@ namespace KitchenMysteryMeat.Customs.Items
         public override List<IItemProperty> Properties => new List<IItemProperty>()
         {
             new CGrindable()
-        };
+        };*/
     }
 }

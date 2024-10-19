@@ -16,5 +16,6 @@ namespace KitchenMysteryMeat.Customs.Items
         public override string UniqueNameID => "Casing";
         public override GameObject Prefab => Mod.Bundle.LoadAsset<GameObject>("Casing").AssignMaterialsByNames();
         public override Appliance DedicatedProvider => (Appliance)GDOUtils.GetCustomGameDataObject<CasingsProvider>().GameDataObject;
+        public override ItemStorage ItemStorageFlags => ItemStorage.StackableFood;
     }
 }

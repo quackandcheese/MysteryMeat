@@ -17,5 +17,6 @@ namespace KitchenMysteryMeat.Customs.Items
         public override string UniqueNameID => "TrashBag";
         public override GameObject Prefab => Mod.Bundle.LoadAsset<GameObject>("Trash Bag").AssignMaterialsByNames();
         public override Appliance DedicatedProvider => (Appliance)GDOUtils.GetCustomGameDataObject<TrashBagProvider>().GameDataObject;
+        public override ItemStorage ItemStorageFlags => ItemStorage.StackableFood;
     }
 }
