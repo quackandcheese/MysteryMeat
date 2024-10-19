@@ -16,6 +16,8 @@ using TMPro;
 using KitchenMysteryMeat.Customs.Processes;
 using System.Collections.Generic;
 using System;
+using Kitchen;
+using KitchenMysteryMeat.Views;
 
 namespace KitchenMysteryMeat
 {
@@ -27,14 +29,20 @@ namespace KitchenMysteryMeat
         public const string MOD_AUTHOR = "QuackAndCheese";
         public const string MOD_GAMEVERSION = ">=1.1.9";
 
+        internal static Mod Instance;
         internal static AssetBundle Bundle;
         internal static KitchenLogger Logger;
+        internal static AssetDirectory VanillaAssetDirectory => Instance.AssetDirectory;
 
-        public Mod() : base(MOD_GUID, MOD_NAME, MOD_AUTHOR, MOD_VERSION, MOD_GAMEVERSION, Assembly.GetExecutingAssembly()) { }
+        public Mod() : base(MOD_GUID, MOD_NAME, MOD_AUTHOR, MOD_VERSION, MOD_GAMEVERSION, Assembly.GetExecutingAssembly()) 
+        {
+            Instance = this;
+        }
 
         public static SoundEvent StabSoundEvent;
         public static SoundEvent PoisonSoundEvent;
         public static SoundEvent AlertSoundEvent;
+        public static GameObject WantedDisplayPrefab;
 
         protected override void OnInitialise()
         {
