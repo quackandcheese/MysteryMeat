@@ -23,7 +23,7 @@ namespace KitchenMysteryMeat.Systems
             base.Initialise();
 
             Customers = GetEntityQuery(new QueryHelper()
-                            .All(typeof(CMoveToLocation), typeof(CPosition), typeof(CRunningAway), typeof(CCustomer)));
+                            .All(typeof(CPosition), typeof(CRunningAway), typeof(CCustomer)));
         }
 
         protected override void OnUpdate()
@@ -34,7 +34,6 @@ namespace KitchenMysteryMeat.Systems
             {
                 Entity customer = _customers[i];
 
-                CMoveToLocation cMoveToLocation = EntityManager.GetComponentData<CMoveToLocation>(customer);
                 CPosition cPosition = EntityManager.GetComponentData<CPosition>(customer);
 
                 Vector3 leftRestaurantMoveTarget = new Vector3(-15f, 0f, 0f);
