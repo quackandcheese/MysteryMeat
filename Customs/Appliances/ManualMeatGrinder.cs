@@ -43,8 +43,8 @@ namespace KitchenMysteryMeat.Customs.Appliances
             new CMeatGrinder()
             {
                 GrindProcess = GDOUtils.GetCastedGDO<Process, GrindMeat>().ID,
-                GrinderInputPosition = new Vector3(0, 0.965f, 0.192f),
-                GrinderOutputPosition = new Vector3(0, 0.5f, -0.31f),
+                GrinderInputPosition = new Vector3(0, 1f, 0.2f),
+                GrinderOutputPosition = new Vector3(0, 0.5f, -0.3f),
             },
         };
 
