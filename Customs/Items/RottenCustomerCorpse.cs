@@ -19,7 +19,7 @@ namespace KitchenMysteryMeat.Customs.Items
         public override string UniqueNameID => "RottenCustomerCorpse";
 
         // Prefab - This is the GameObject used for this Item's visual. AssignMaterialsByNames() is a helper method that assigns materials to the GameObject based on the names of the materials.
-        public override GameObject Prefab => Mod.Bundle.LoadAsset<GameObject>("Rotten Customer Corpse").AssignMaterialsByNames();
+        public override GameObject Prefab => Mod.Bundle.LoadAsset<GameObject>("Rotten Customer Corpse").AssignMaterialsByNames().AssignVFXByNames();
         public override Item SplitSubItem => (Item)GDOUtils.GetCustomGameDataObject<RottenMysteryMeat>().GameDataObject;
         public override int SplitCount => 5;
         public override float SplitSpeed => 1.0f;

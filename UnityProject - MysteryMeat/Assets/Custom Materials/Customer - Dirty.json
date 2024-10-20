@@ -1,7 +1,7 @@
 {
-  "_ColorX": 0.5666666,
-  "_ColorY": 0.4048895,
-  "_ColorZ": 0.231184334,
+  "_ColorX": 0.6666667,
+  "_ColorY": 0.449647963,
+  "_ColorZ": 0.216633528,
   "_ColorA": 1.0,
   "_OverlayOffsetX": 0.0,
   "_OverlayOffsetY": 0.0,
@@ -30,7 +30,7 @@
   "_OverlayUpperBound": 0.9,
   "_OverlayScale": 68.68545,
   "_OverlayMin": 0.0,
-  "_OverlayMax": 0.05743353,
+  "_OverlayMax": 0.1122066,
   "_Flatness": 0.0,
   "Name": "Customer - Dirty"
 }

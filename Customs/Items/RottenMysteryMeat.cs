@@ -17,7 +17,7 @@ namespace KitchenMysteryMeat.Customs.Items
     public class RottenMysteryMeat : CustomItem
     {
         public override string UniqueNameID => "RottenMysteryMeat";
-        public override GameObject Prefab => Mod.Bundle.LoadAsset<GameObject>("Rotten Mystery Meat").AssignMaterialsByNames();
+        public override GameObject Prefab => Mod.Bundle.LoadAsset<GameObject>("Rotten Mystery Meat").AssignMaterialsByNames().AssignVFXByNames();
         public override ItemStorage ItemStorageFlags => ItemStorage.StackableFood;
 
 

@@ -16,7 +16,7 @@ namespace KitchenMysteryMeat.Customs.Appliances
     public class RottenCustomerFloorCorpse : CustomAppliance
     {
         public override string UniqueNameID => "RottenCustomerFloorCorpse";
-        public override GameObject Prefab => Mod.Bundle.LoadAsset<GameObject>("Rotten Customer Floor Corpse").AssignMaterialsByNames();
+        public override GameObject Prefab => Mod.Bundle.LoadAsset<GameObject>("Rotten Customer Floor Corpse").AssignMaterialsByNames().AssignVFXByNames();
         public override OccupancyLayer Layer => OccupancyLayer.Floor;
 
         public override List<IApplianceProperty> Properties => new List<IApplianceProperty>()
