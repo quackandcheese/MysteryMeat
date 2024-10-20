@@ -35,7 +35,8 @@ namespace KitchenMysteryMeat.Systems
                 if (susIndicator.TotalTime <= 0.0f || susIndicator.IndicatorType == SuspicionIndicatorType.Alert)
                     continue;
 
-                if (susIndicator.SeenIllegalThing != null) 
+                
+                if (susIndicator.SeenIllegalThing != null && !Has<CStoredBy>((Entity)susIndicator.SeenIllegalThing)) 
                 {
                     susIndicator.RemainingTime = Mathf.Clamp(susIndicator.RemainingTime - Time.DeltaTime, 0.0f, susIndicator.TotalTime);
                 }

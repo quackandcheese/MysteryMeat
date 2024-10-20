@@ -1,8 +1,11 @@
-﻿using KitchenData;
+﻿using Kitchen;
+using KitchenData;
 using KitchenLib.Customs;
 using KitchenLib.References;
 using KitchenLib.Utils;
+using KitchenMysteryMeat.Components;
 using KitchenMysteryMeat.Customs.Appliances;
+using KitchenMysteryMeat.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +20,26 @@ namespace KitchenMysteryMeat.Customs.Items
         public override string UniqueNameID => "TrashBag";
         public override GameObject Prefab => Mod.Bundle.LoadAsset<GameObject>("Trash Bag").AssignMaterialsByNames();
         public override Appliance DedicatedProvider => (Appliance)GDOUtils.GetCustomGameDataObject<TrashBagProvider>().GameDataObject;
-        public override ItemStorage ItemStorageFlags => ItemStorage.StackableFood;
+        public override ItemStorage ItemStorageFlags => ItemStorage.OutsideRubbish;
+
+        public override List<IItemProperty> Properties => new List<IItemProperty>()
+        {
+            new CTrashBag(),
+            new CToolInteractionMemory(),
+            new CEquippableTool()
+            {
+                CanHoldItems = false
+            },
+            new CToolStorage()
+            {
+                Capacity = 1
+            },
+        };
+        public override void OnRegister(Item gameDataObject)
+        {
+            base.OnRegister(gameDataObject);
+
+            TrashBagView view = Prefab.AddComponent<TrashBagView>();
+        }
     }
 }

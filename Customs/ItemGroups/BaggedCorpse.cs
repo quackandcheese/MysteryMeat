@@ -1,4 +1,4 @@
-﻿using Kitchen;
+﻿/*using Kitchen;
 using KitchenData;
 using KitchenLib.Customs;
 using KitchenLib.References;
@@ -18,7 +18,7 @@ namespace KitchenMysteryMeat.Customs.ItemGroups
         public override string UniqueNameID => "BaggedCorpse";
         public override GameObject Prefab => Mod.Bundle.LoadAsset<GameObject>("Bagged Corpse").AssignMaterialsByNames();
         public override ItemCategory ItemCategory => ItemCategory.Generic;
-        public override ItemStorage ItemStorageFlags => ItemStorage.StackableFood;
+        public override ItemStorage ItemStorageFlags => ItemStorage.OutsideRubbish;
         public override ItemValue ItemValue => ItemValue.Medium;
         public override Item SplitSubItem => (Item)GDOUtils.GetCustomGameDataObject<TrashBag>().GameDataObject;
         public override List<Item> SplitDepletedItems => new() { (Item)GDOUtils.GetCustomGameDataObject<CustomerCorpse>().GameDataObject };
@@ -39,3 +39,4 @@ namespace KitchenMysteryMeat.Customs.ItemGroups
         };
     }
 }
+*/

@@ -1,6 +1,7 @@
 ﻿using Kitchen;
 using KitchenData;
 using KitchenLib.Customs;
+using KitchenLib.References;
 using KitchenLib.Utils;
 using KitchenMysteryMeat.Customs.Items;
 using System;
@@ -29,6 +30,23 @@ namespace KitchenMysteryMeat.Customs.Appliances
 
         public override List<Process> RequiresProcessForShop => new()
         {
+        };
+        public override List<Appliance.ApplianceProcesses> Processes => new List<Appliance.ApplianceProcesses>()
+        {
+            new Appliance.ApplianceProcesses()
+            {
+                Process = GDOUtils.GetExistingGDO(ProcessReferences.Chop) as Process,
+                Speed = 0.75f,
+                IsAutomatic = false,
+                Validity = ProcessValidity.Generic
+            },
+            new Appliance.ApplianceProcesses()
+            {
+                Process = GDOUtils.GetExistingGDO(ProcessReferences.Knead) as Process,
+                Speed = 0.75f,
+                IsAutomatic = false,
+                Validity = ProcessValidity.Generic
+            },
         };
 
         public override List<IApplianceProperty> Properties => new()
