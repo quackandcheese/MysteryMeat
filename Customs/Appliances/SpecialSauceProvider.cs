@@ -17,7 +17,7 @@ namespace KitchenMysteryMeat.Customs.Appliances
     {
         public override string UniqueNameID => "SpecialSauceProvider";
         public override GameObject Prefab => Mod.Bundle.LoadAsset<GameObject>("Special Sauce Provider").AssignMaterialsByNames().AssignVFXByNames();
-        public override PriceTier PriceTier => PriceTier.VeryExpensive;
+        public override PriceTier PriceTier => PriceTier.Expensive;
         public override RarityTier RarityTier => RarityTier.Uncommon;
         public override bool SellOnlyAsDuplicate => true;
         public override bool IsPurchasable => true;
