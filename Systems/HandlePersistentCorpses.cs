@@ -4,6 +4,7 @@ using KitchenLib.Utils;
 using KitchenMods;
 using KitchenMysteryMeat.Components;
 using KitchenMysteryMeat.Customs.Appliances;
+using KitchenMysteryMeat.Customs.Items;
 using Sony.NP;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ using UnityEngine.UIElements;
 
 namespace KitchenMysteryMeat.Systems
 {
-    internal class HandlePersistentCorpses : StartOfDaySystem, IModSystem
+    public class HandlePersistentCorpses : StartOfDaySystem, IModSystem
     {
         EntityQuery Illegals;
 
@@ -49,6 +50,15 @@ namespace KitchenMysteryMeat.Systems
                     {
                         NewID = illegalSight.TurnIntoOnDayStart,
                     });
+
+                    if (Require<CSplittableItem>(illegalEntity, out var cSplittableItem))
+                    {
+                        Set<CPersistPortions>(illegalEntity, new CPersistPortions()
+                        {
+                            RemainingCount = cSplittableItem.RemainingCount,
+                            TotalCount = cSplittableItem.TotalCount,
+                        });
+                    }
                 }
                 else if (Require<CAppliance>(illegalEntity, out var cAppliance))
                 {
