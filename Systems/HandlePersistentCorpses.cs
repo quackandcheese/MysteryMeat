@@ -32,6 +32,9 @@ namespace KitchenMysteryMeat.Systems
 
         protected override void OnUpdate()
         {
+            if (!HasStatus((RestaurantStatus)VariousUtils.GetID("persistentcorpses")))
+                return;
+
             using NativeArray<Entity> _illegals = Illegals.ToEntityArray(Allocator.Temp);
 
             for (int i = _illegals.Length - 1; i >= 0; i--)
@@ -46,7 +49,7 @@ namespace KitchenMysteryMeat.Systems
                 if (Require<CItem>(illegalEntity, out var cItem))
                 {
                     // Turn into illegalSight.TurnIntoOnDayStart
-                    EntityManager.AddComponentData<CChangeItemType>(illegalEntity, new CChangeItemType()
+                    Set(illegalEntity, new CChangeItemType()
                     {
                         NewID = illegalSight.TurnIntoOnDayStart,
                     });

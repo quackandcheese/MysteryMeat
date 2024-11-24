@@ -37,7 +37,7 @@ namespace KitchenMysteryMeat.Customs.Items
         public override int SplitCount => 5;
         public override float SplitSpeed => 1.0f;
         public override List<Item> SplitDepletedItems => new() { (Item)GDOUtils.GetCustomGameDataObject<MysteryMeat>().GameDataObject };
-        public override ItemStorage ItemStorageFlags => ItemStorage.None;
+        public override ItemStorage ItemStorageFlags => ItemStorage.OutsideRubbish;
         public override bool IsIndisposable => true;
         public override List<IItemProperty> Properties => new()
         {
@@ -56,7 +56,6 @@ namespace KitchenMysteryMeat.Customs.Items
             {
                 Condition = MergeCondition.OnlyAsFirstSplitElement
             },
-            new CPreservedOvernight()
         };
 
         public override void OnRegister(Item item)

@@ -36,7 +36,7 @@ namespace KitchenMysteryMeat.Systems
                     continue;
 
                 
-                if (susIndicator.SeenIllegalThing != null && !Has<CStoredBy>((Entity)susIndicator.SeenIllegalThing)) 
+                if (susIndicator.SeenIllegalThing != null && EntityManager.Exists((Entity)susIndicator.SeenIllegalThing) && !Has<CStoredBy>((Entity)susIndicator.SeenIllegalThing)) 
                 {
                     susIndicator.RemainingTime = Mathf.Clamp(susIndicator.RemainingTime - Time.DeltaTime, 0.0f, susIndicator.TotalTime);
                 }
