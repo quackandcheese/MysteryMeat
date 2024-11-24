@@ -1,5 +1,4 @@
 using KitchenLib;
-using KitchenLib.Logging;
 using KitchenLib.Logging.Exceptions;
 using KitchenMods;
 using System.Linq;
@@ -11,11 +10,11 @@ using KitchenLib.Event;
 using KitchenLib.Utils;
 using KitchenLib.References;
 using KitchenData;
-using KitchenMysteryMeat.Components;
 using TMPro;
-using KitchenMysteryMeat.Customs.Processes;
 using System.Collections.Generic;
-using System;
+using KitchenLib.Preferences;
+using PreferenceSystem.Generators;
+using PreferenceSystem;
 
 namespace KitchenMysteryMeat
 {
@@ -35,6 +34,10 @@ namespace KitchenMysteryMeat
         public static SoundEvent StabSoundEvent;
         public static SoundEvent PoisonSoundEvent;
         public static SoundEvent AlertSoundEvent;
+
+
+        internal static PreferenceSystemManager PrefManager;
+        public const string MEAT_GRINDER_VOLUME_ID = "meatGrinderVolume";
 
         protected override void OnInitialise()
         {
@@ -56,6 +59,32 @@ namespace KitchenMysteryMeat
             TMP_Settings.defaultSpriteAsset.fallbackSpriteAssets.Add(spriteAsset);
             spriteAsset.material = UnityEngine.Object.Instantiate(TMP_Settings.defaultSpriteAsset.material);
             spriteAsset.material.mainTexture = Bundle.LoadAsset<Texture2D>("GrindMeatTex");
+
+            #region Preferences
+            PrefManager = new PreferenceSystemManager(MOD_GUID, MOD_NAME);
+
+            IntArrayGenerator intArrayGenerator = new IntArrayGenerator();
+            intArrayGenerator.AddRange(0, 100, 10, null, delegate (string prefKey, int value)
+            {
+                return $"{value}%";
+            });
+            int[] zeroToHundredPercentValues = intArrayGenerator.GetArray();
+            string[] zeroToHundredPercentStrings = intArrayGenerator.GetStrings();
+            intArrayGenerator.Clear();
+
+            PrefManager
+                .AddLabel("Meat Grinder Volume")
+                .AddOption<int>(
+                    MEAT_GRINDER_VOLUME_ID,
+                    50,
+                    zeroToHundredPercentValues,
+                    zeroToHundredPercentStrings)
+            .AddSpacer()
+            .AddSpacer();
+
+            PrefManager.RegisterMenu(PreferenceSystemManager.MenuType.PauseMenu);
+            #endregion
+
 
             Events.BuildGameDataEvent += delegate (object s, BuildGameDataEventArgs args)
             {

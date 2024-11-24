@@ -1,9 +1,11 @@
 ﻿using Kitchen;
+using Kitchen.Components;
 using KitchenData;
 using KitchenLib.Customs;
 using KitchenLib.Utils;
 using KitchenMysteryMeat.Components;
 using KitchenMysteryMeat.Customs.Processes;
+using KitchenMysteryMeat.MonoBehaviours;
 using KitchenMysteryMeat.Views;
 using System;
 using System.Collections.Generic;
@@ -62,6 +64,7 @@ namespace KitchenMysteryMeat.Customs.Appliances
         // Animator code courtesy of IcedMilo: https://github.com/UrFriendKen/PlateUpAutomationPlus/blob/master/Customs/SmartRotatingGrabber.cs
         static FieldInfo animator = typeof(ApplianceProcessView).GetField("Animator", BindingFlags.NonPublic | BindingFlags.Instance);
         static FieldInfo clip = typeof(ApplianceProcessView).GetField("Clip", BindingFlags.NonPublic | BindingFlags.Instance);
+        static FieldInfo sound = typeof(ApplianceProcessView).GetField("Sound", BindingFlags.NonPublic | BindingFlags.Instance);
 
         static FieldInfo pushObject = typeof(ConveyItemsView).GetField("PushObject", BindingFlags.NonPublic | BindingFlags.Instance);
         /*static FieldInfo smartActive = typeof(ConveyItemsView).GetField("SmartActive", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -76,8 +79,14 @@ namespace KitchenMysteryMeat.Customs.Appliances
             Prefab.AddComponent<HoldPointContainer>().HoldPoint = GameObjectUtils.GetChildObject(gameDataObject.Prefab, "GameObject/HoldPoint").transform;
 
             ApplianceProcessView applianceProcessView = Prefab.AddComponent<ApplianceProcessView>();
+
             animator.SetValue(applianceProcessView, Prefab.GetComponent<Animator>());
-            clip.SetValue(applianceProcessView, Mod.Bundle.LoadAsset<AudioClip>("grinder.ogg"));
+
+            PreferenceVolumeAdjuster volumeAdjuster = applianceProcessView.gameObject.AddComponent<PreferenceVolumeAdjuster>();
+            AudioClip audioClip = Mod.Bundle.LoadAsset<AudioClip>("grinder.ogg");
+            volumeAdjuster.PreferenceID = Mod.MEAT_GRINDER_VOLUME_ID;
+
+            clip.SetValue(applianceProcessView, audioClip);
 
 
             ConveyItemsView conveyItemsView = gameDataObject.Prefab.AddComponent<ConveyItemsView>();
