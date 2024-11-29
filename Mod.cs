@@ -38,6 +38,9 @@ namespace KitchenMysteryMeat
 
         internal static PreferenceSystemManager PrefManager;
         public const string MEAT_GRINDER_VOLUME_ID = "meatGrinderVolume";
+        public const string STAB_VOLUME_ID = "stabVolume";
+        public const string ALERT_VOLUME_ID = "alertVolume";
+        public const string SUSPICION_VOLUME_ID = "suspicionVolume";
 
         protected override void OnInitialise()
         {
@@ -76,6 +79,24 @@ namespace KitchenMysteryMeat
                 .AddLabel("Meat Grinder Volume")
                 .AddOption<int>(
                     MEAT_GRINDER_VOLUME_ID,
+                    50,
+                    zeroToHundredPercentValues,
+                    zeroToHundredPercentStrings)
+                .AddLabel("Stab Volume")
+                .AddOption<int>(
+                    STAB_VOLUME_ID,
+                    50,
+                    zeroToHundredPercentValues,
+                    zeroToHundredPercentStrings)
+                .AddLabel("Suspicion Volume")
+                .AddOption<int>(
+                    SUSPICION_VOLUME_ID,
+                    50,
+                    zeroToHundredPercentValues,
+                    zeroToHundredPercentStrings)
+                .AddLabel("Alert Volume")
+                .AddOption<int>(
+                    ALERT_VOLUME_ID,
                     50,
                     zeroToHundredPercentValues,
                     zeroToHundredPercentStrings)

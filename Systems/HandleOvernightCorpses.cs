@@ -37,8 +37,8 @@ namespace KitchenMysteryMeat.Systems
                 Entity illegalEntity = _illegals[i];
                 CIllegalSight illegalSight = GetComponent<CIllegalSight>(illegalEntity);
 
-                if (!GameData.Main.TryGet(illegalSight.TurnIntoOnDayStart, out Appliance _, true) &&
-                    !GameData.Main.TryGet(illegalSight.TurnIntoOnDayStart, out Item _, true))
+                if (!GameData.Main.TryGet(illegalSight.TurnIntoOnDayStart, out Appliance _, false) &&
+                    !GameData.Main.TryGet(illegalSight.TurnIntoOnDayStart, out Item _, false))
                     continue;
 
                 if (Require<CItem>(illegalEntity, out var _cItem))

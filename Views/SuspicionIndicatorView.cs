@@ -13,6 +13,7 @@ using Unity.Entities;
 using UnityEngine;
 using UnityEngine.UI;
 using Kitchen.Components;
+using KitchenMysteryMeat.MonoBehaviours;
 
 namespace KitchenMysteryMeat.Views
 {
@@ -80,7 +81,7 @@ namespace KitchenMysteryMeat.Views
 
                     if (!SuspicionSound.IsPlaying || SuspicionSound.TargetVolume == 0)
                         SuspicionSound.Play();
-                    SuspicionSound.VolumeMultiplier = SuspicionIconFill.fillAmount;
+                    SuspicionSound.VolumeMultiplier = SuspicionIconFill.fillAmount * (Mod.PrefManager.Get<int>(Mod.SUSPICION_VOLUME_ID) / 100.0f);
                     SuspicionSound.Pitch = 0.5f + (1.5f * SuspicionIconFill.fillAmount);
                 }
             }            
