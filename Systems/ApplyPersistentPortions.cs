@@ -22,7 +22,8 @@ namespace KitchenMysteryMeat.Systems
             base.Initialise();
 
             Query = GetEntityQuery(new QueryHelper()
-                            .All(typeof(CPersistPortions), typeof(CItem), typeof(CSplittableItem), typeof(CLinkedView)));
+                            .All(typeof(CPersistPortions), typeof(CItem), typeof(CSplittableItem), typeof(CLinkedView))
+                            .None(typeof(CChangeItemType)));
         }
 
         protected override void OnUpdate()

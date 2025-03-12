@@ -46,7 +46,9 @@ namespace KitchenMysteryMeat.Systems
                     !GameData.Main.TryGet(illegalSight.TurnIntoOnDayStart, out Item _, false))
                     continue;
 
-                if (Require<CItem>(illegalEntity, out var cItem))
+                if (Require<CItem>(illegalEntity, out var cItem) && 
+                    Require<CHeldBy>(illegalEntity, out var holder) && 
+                    !Has<CPreservesContentsOvernight>(holder)) // This makes sure the body doesn't get converted if in a freezer
                 {
                     // Turn into illegalSight.TurnIntoOnDayStart
                     Set(illegalEntity, new CChangeItemType()
