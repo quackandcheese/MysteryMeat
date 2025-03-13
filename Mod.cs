@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using KitchenLib.Preferences;
 using PreferenceSystem.Generators;
 using PreferenceSystem;
+using KitchenMysteryMeat.Customs.Cards;
 
 namespace KitchenMysteryMeat
 {
@@ -22,7 +23,7 @@ namespace KitchenMysteryMeat
     {
         public const string MOD_GUID = "com.quackandcheese.mysterymeat";
         public const string MOD_NAME = "Mystery Meat";
-        public const string MOD_VERSION = "0.1.4";
+        public const string MOD_VERSION = "0.2.0";
         public const string MOD_AUTHOR = "QuackAndCheese";
         public const string MOD_GAMEVERSION = ">=1.1.9";
 
@@ -41,6 +42,9 @@ namespace KitchenMysteryMeat
         public const string STAB_VOLUME_ID = "stabVolume";
         public const string ALERT_VOLUME_ID = "alertVolume";
         public const string SUSPICION_VOLUME_ID = "suspicionVolume";
+        public const string CAUTIOUS_CROWD_ENABLED_ID = "cautiousCrowdEnabled";
+        public const string MESSY_MURDER_ENABLED_ID = "messyMurderEnabled";
+        public const string PERSISTENT_CORPSES_ENABLED_ID = "persistentCorpsesEnabled";
 
         protected override void OnInitialise()
         {
@@ -76,35 +80,83 @@ namespace KitchenMysteryMeat
             intArrayGenerator.Clear();
 
             PrefManager
-                .AddLabel("Meat Grinder Volume")
-                .AddOption<int>(
-                    MEAT_GRINDER_VOLUME_ID,
-                    50,
-                    zeroToHundredPercentValues,
-                    zeroToHundredPercentStrings)
-                .AddLabel("Stab Volume")
-                .AddOption<int>(
-                    STAB_VOLUME_ID,
-                    50,
-                    zeroToHundredPercentValues,
-                    zeroToHundredPercentStrings)
-                .AddLabel("Suspicion Volume")
-                .AddOption<int>(
-                    SUSPICION_VOLUME_ID,
-                    50,
-                    zeroToHundredPercentValues,
-                    zeroToHundredPercentStrings)
-                .AddLabel("Alert Volume")
-                .AddOption<int>(
-                    ALERT_VOLUME_ID,
-                    50,
-                    zeroToHundredPercentValues,
-                    zeroToHundredPercentStrings)
+                .AddLabel("Mystery Meat")
+                .AddSpacer()
+                .AddSubmenu("Audio Settings", "AudioSubmenu")
+                    .AddLabel("Audio Settings")
+                    .AddSpacer()
+                    .AddLabel("Meat Grinder Volume")
+                    .AddOption<int>(
+                        MEAT_GRINDER_VOLUME_ID,
+                        50,
+                        zeroToHundredPercentValues,
+                        zeroToHundredPercentStrings)
+                    .AddLabel("Stab Volume")
+                    .AddOption<int>(
+                        STAB_VOLUME_ID,
+                        50,
+                        zeroToHundredPercentValues,
+                        zeroToHundredPercentStrings)
+                    .AddLabel("Suspicion Volume")
+                    .AddOption<int>(
+                        SUSPICION_VOLUME_ID,
+                        50,
+                        zeroToHundredPercentValues,
+                        zeroToHundredPercentStrings)
+                    .AddLabel("Alert Volume")
+                    .AddOption<int>(
+                        ALERT_VOLUME_ID,
+                        50,
+                        zeroToHundredPercentValues,
+                        zeroToHundredPercentStrings)
+                    .AddSpacer()
+                    .AddSpacer()
+                    .SubmenuDone()
+                .AddSubmenu("Card Settings", "CardSubmenu")
+                    .AddLabel("Card Settings")
+                    .AddInfo("Any changes require a restart.")
+                    .AddLabel("Cautious Crowd")
+                    .AddOption<bool>(
+                        CAUTIOUS_CROWD_ENABLED_ID,
+                        true,
+                        [true, false],
+                        ["Enabled", "Disabled"]
+                    )
+                    .AddLabel("Messy Murder")
+                    .AddOption<bool>(
+                        MESSY_MURDER_ENABLED_ID,
+                        true,
+                        [true, false],
+                        ["Enabled", "Disabled"]
+                    )
+                    .AddLabel("Persistent Corpses")
+                    .AddOption<bool>(
+                        PERSISTENT_CORPSES_ENABLED_ID,
+                        true,
+                        [true, false],
+                        ["Enabled", "Disabled"]
+                    )
+                    .AddSpacer()
+                    .AddSpacer()
+                    .SubmenuDone()
             .AddSpacer()
             .AddSpacer();
 
             PrefManager.RegisterMenu(PreferenceSystemManager.MenuType.PauseMenu);
             #endregion
+
+            if (Mod.PrefManager.Get<bool>(CAUTIOUS_CROWD_ENABLED_ID))
+            {
+                AddGameDataObject<CautiousCrowdCard>();
+            }
+            if (Mod.PrefManager.Get<bool>(MESSY_MURDER_ENABLED_ID))
+            {
+                AddGameDataObject<MessyMurderCard>();
+            }
+            if (Mod.PrefManager.Get<bool>(PERSISTENT_CORPSES_ENABLED_ID))
+            {
+                AddGameDataObject<PersistentCorpsesCard>();
+            }
 
 
             Events.BuildGameDataEvent += delegate (object s, BuildGameDataEventArgs args)

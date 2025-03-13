@@ -1,5 +1,6 @@
 ﻿using KitchenData;
 using KitchenLib.Customs;
+using KitchenLib.Interfaces;
 using KitchenLib.Utils;
 using KitchenMysteryMeat.Customs.Dishes;
 using System;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace KitchenMysteryMeat.Customs.Cards
 {
-    public class CautiousCrowdCard : CustomUnlockCard
+    public class CautiousCrowdCard : CustomUnlockCard, IDontRegister
     {
         public override string UniqueNameID => "CautiousCrowdCard";
         public override DishCustomerChange CustomerMultiplier => DishCustomerChange.None;
