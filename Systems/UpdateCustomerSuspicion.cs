@@ -55,12 +55,26 @@ namespace KitchenMysteryMeat.Systems
                     // Remove customer from group
                     if (Require<CBelongsToGroup>(customer, out CBelongsToGroup cBelongsToGroup) && RequireBuffer<CGroupMember>(cBelongsToGroup.Group, out DynamicBuffer<CGroupMember> groupMembers))
                     {
+                        // Remove from customer group
+                        int targetedIndex = 0;
                         for (int j = groupMembers.Length - 1; j > -1; j--)
                         {
                             if (groupMembers[j].Customer != customer)
                                 continue;
                             groupMembers.RemoveAt(j);
+                            targetedIndex = j;
                             break;
+                        }
+                        // Remove from orders
+                        if (RequireBuffer<CWaitingForItem>(cBelongsToGroup.Group, out DynamicBuffer<CWaitingForItem> waitingForItems))
+                        {
+                            for (int j = waitingForItems.Length - 1; j > -1; j--)
+                            {
+                                if (waitingForItems[j].MemberIndex != targetedIndex)
+                                    continue;
+                                waitingForItems.RemoveAt(j);
+                                break;
+                            }
                         }
                     }
 

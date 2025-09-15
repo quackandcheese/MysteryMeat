@@ -20,7 +20,7 @@ namespace KitchenMysteryMeat.Customs.Appliances
     {
         public override string UniqueNameID => "AutomaticMeatGrinder";
         public override GameObject Prefab => Mod.Bundle.LoadAsset<GameObject>("Automatic Meat Grinder").AssignMaterialsByNames();
-        public override PriceTier PriceTier => PriceTier.Medium;
+        public override PriceTier PriceTier => PriceTier.Expensive;
         public override bool SellOnlyAsDuplicate => true;
         public override bool IsPurchasable => false;
         public override bool IsPurchasableAsUpgrade => true;
