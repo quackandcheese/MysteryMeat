@@ -2,15 +2,9 @@
 using KitchenMods;
 using KitchenMysteryMeat.Enums;
 using KitchenMysteryMeat.Components;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Unity.Collections;
 using Unity.Entities;
 using UnityEngine;
-using static Sony.NP.Matching;
 
 namespace KitchenMysteryMeat.Systems
 {

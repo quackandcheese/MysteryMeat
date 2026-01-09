@@ -12,11 +12,11 @@ using Unity.Entities;
 namespace KitchenMysteryMeat.Systems
 {
 
-    [UpdateAfter(typeof(GroupReceiveExtra))]
+    [UpdateAfter(typeof(AcceptIntoExtraSatisfaction))]
     public class SpecialSauceServing : GameSystemBase, IModSystem
     {
         private EntityQuery GroupQuery;
-        public bool has_found_item;
+        
         protected override void Initialise()
         {
             GroupQuery = GetEntityQuery(new QueryHelper()

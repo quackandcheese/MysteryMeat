@@ -56,7 +56,7 @@ namespace KitchenMysteryMeat.Customs.Appliances
             new Appliance.ApplianceProcesses()
             {
                 Process = GDOUtils.GetCastedGDO<Process, GrindMeat>(),   // reference to the base process
-                Speed = 0.75f,                                              // the speed multiplier when using this appliance (for reference, starter = 0.75, base = 1, danger hob/oven = 2)
+                Speed = 1f,                                              // the speed multiplier when using this appliance (for reference, starter = 0.75, base = 1, danger hob/oven = 2)
                 IsAutomatic = false                                       // (optional) whether the process is automatic on this appliance
             }
         };
@@ -79,16 +79,15 @@ namespace KitchenMysteryMeat.Customs.Appliances
             Prefab.AddComponent<HoldPointContainer>().HoldPoint = GameObjectUtils.GetChildObject(gameDataObject.Prefab, "GameObject/HoldPoint").transform;
 
             ApplianceProcessView applianceProcessView = Prefab.AddComponent<ApplianceProcessView>();
-
             animator.SetValue(applianceProcessView, Prefab.GetComponent<Animator>());
 
+            // Audio
             PreferenceVolumeAdjuster volumeAdjuster = applianceProcessView.gameObject.AddComponent<PreferenceVolumeAdjuster>();
             AudioClip audioClip = Mod.Bundle.LoadAsset<AudioClip>("grinder.ogg");
             volumeAdjuster.PreferenceID = Mod.MEAT_GRINDER_VOLUME_ID;
-
             clip.SetValue(applianceProcessView, audioClip);
 
-
+            // To be honest, this probably shouldn't be here. But the code is old and I don't want to break anything, so I'm keeping it.
             ConveyItemsView conveyItemsView = gameDataObject.Prefab.AddComponent<ConveyItemsView>();
             pushObject.SetValue(conveyItemsView, GameObjectUtils.GetChildObject(gameDataObject.Prefab, "GameObject/HoldPoint"));
 

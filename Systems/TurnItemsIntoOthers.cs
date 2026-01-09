@@ -1,16 +1,8 @@
 ﻿using Kitchen;
-using KitchenLib.References;
-using KitchenLib.Utils;
 using KitchenMods;
 using KitchenMysteryMeat.Components;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Unity.Collections;
 using Unity.Entities;
-using static Sony.NP.Core;
 
 namespace KitchenMysteryMeat.Systems
 {

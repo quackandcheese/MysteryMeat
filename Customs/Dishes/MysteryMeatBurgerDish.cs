@@ -42,7 +42,8 @@ namespace KitchenMysteryMeat.Customs.Dishes
         public override List<string> StartingNameSet => new List<string>
         {
             "We Won't Kill You",
-            "Fresh Never Frozen"
+            "Fresh Never Frozen",
+            "Man-made Meals"
         };
 
         // MinimumIngredients - The ingredients required to make this Dish.

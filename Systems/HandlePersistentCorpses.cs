@@ -3,17 +3,8 @@ using KitchenData;
 using KitchenLib.Utils;
 using KitchenMods;
 using KitchenMysteryMeat.Components;
-using KitchenMysteryMeat.Customs.Appliances;
-using KitchenMysteryMeat.Customs.Items;
-using Sony.NP;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Unity.Collections;
 using Unity.Entities;
-using UnityEngine.UIElements;
 
 namespace KitchenMysteryMeat.Systems
 {

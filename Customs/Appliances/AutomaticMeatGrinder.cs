@@ -5,6 +5,7 @@ using KitchenLib.Customs;
 using KitchenLib.Utils;
 using KitchenMysteryMeat.Components;
 using KitchenMysteryMeat.Customs.Processes;
+using KitchenMysteryMeat.MonoBehaviours;
 using KitchenMysteryMeat.Views;
 using System;
 using System.Collections.Generic;
@@ -61,7 +62,7 @@ namespace KitchenMysteryMeat.Customs.Appliances
             new Appliance.ApplianceProcesses()
             {
                 Process = GDOUtils.GetCastedGDO<Process, GrindMeat>(),   // reference to the base process
-                Speed = 1f,                                              // the speed multiplier when using this appliance (for reference, starter = 0.75, base = 1, danger hob/oven = 2)
+                Speed = 0.75f,                                              // the speed multiplier when using this appliance (for reference, starter = 0.75, base = 1, danger hob/oven = 2)
                 IsAutomatic = true                                       // (optional) whether the process is automatic on this appliance
             }
         };
@@ -84,9 +85,14 @@ namespace KitchenMysteryMeat.Customs.Appliances
 
             ApplianceProcessView applianceProcessView = Prefab.AddComponent<ApplianceProcessView>();
             animator.SetValue(applianceProcessView, Prefab.GetComponent<Animator>());
-            clip.SetValue(applianceProcessView, Mod.Bundle.LoadAsset<AudioClip>("grinder.ogg"));
 
+            // Audio
+            PreferenceVolumeAdjuster volumeAdjuster = applianceProcessView.gameObject.AddComponent<PreferenceVolumeAdjuster>();
+            AudioClip audioClip = Mod.Bundle.LoadAsset<AudioClip>("grinder.ogg");
+            volumeAdjuster.PreferenceID = Mod.MEAT_GRINDER_VOLUME_ID;
+            clip.SetValue(applianceProcessView, audioClip);
 
+            // Conveyor hold point
             ConveyItemsView conveyItemsView = gameDataObject.Prefab.AddComponent<ConveyItemsView>();
             pushObject.SetValue(conveyItemsView, GameObjectUtils.GetChildObject(gameDataObject.Prefab, "GameObject/HoldPoint"));
 

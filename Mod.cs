@@ -16,6 +16,7 @@ using KitchenLib.Preferences;
 using PreferenceSystem.Generators;
 using PreferenceSystem;
 using KitchenMysteryMeat.Customs.Cards;
+using KitchenMysteryMeat.Customs.Processes;
 
 namespace KitchenMysteryMeat
 {
@@ -167,6 +168,12 @@ namespace KitchenMysteryMeat
                     Process = (Process)GDOUtils.GetExistingGDO(ProcessReferences.Knead),
                     Result = (Item)GDOUtils.GetExistingGDO(ItemReferences.BurgerPattyRaw),
                     Duration = 0.75f
+                });
+                ((Item)GDOUtils.GetExistingGDO(ItemReferences.MeatChopped)).DerivedProcesses.Add(new Item.ItemProcess()
+                {
+                    Process = GDOUtils.GetCastedGDO<Process, GrindMeat>(),
+                    Result = (Item)GDOUtils.GetExistingGDO(ItemReferences.Mince),
+                    Duration = 1.2f
                 });
 
                 SetupSFX(args.gamedata);
